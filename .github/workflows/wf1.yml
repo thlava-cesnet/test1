@@ -7,8 +7,8 @@ name: test1_wf1
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,6 +30,7 @@ jobs:
       with:
         repository: thlava-cesnet/test2
         branch: from_test1
+        github_token: '${{ secrets.TOK }}'
         github_pat: '${{ secrets.TOK }}'
         source_folder: comm2test2
         target_folder: commFtest1
