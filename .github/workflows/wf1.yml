@@ -7,6 +7,7 @@ name: test1_wf1
 on:
   push:
     branches: [ master ]
+    paths: [ 'comm2test2/*' ]
 #  pull_request:
 #    branches: [ master ]
 
@@ -33,7 +34,6 @@ jobs:
         github_token: '${{ secrets.GITHUB_TOKEN }}'
         github_pat: '${{ secrets.TOK }}'
         source_folder: comm2test2
-#        target_folder: commFtest1
-        target_folder: tmp
+        target_folder: commFtest1
       #if: success() && github.event == 'push'
       
