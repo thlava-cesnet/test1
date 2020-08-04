@@ -32,7 +32,7 @@ jobs:
         repository: thlava-cesnet/test2
         branch: from_test1
 #        github_token: '${{ secrets.GITHUB_TOKEN }}'
-        github_pat: '${{ secrets.TOK1 }}'
+        github_pat: '${{ secrets.TOK2 }}'
         source_folder: comm2test2
         target_folder: commFtest1
       #if: success() && github.event == 'push'
