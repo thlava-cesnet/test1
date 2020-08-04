@@ -36,7 +36,7 @@ jobs:
         github_pat: '${{ secrets.TOK1 }}'
         source_folder: comm2test2
         target_folder: commFtest1
-      if: github.event_name == 'push'
+      if: success() && github.event_name == 'push'
     - name: Success test step
       run: echo Success test
       if: success()
