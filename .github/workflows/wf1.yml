@@ -28,7 +28,7 @@ jobs:
     #    echo Test of the action publish-to-git
     - uses: seanmiddleditch/gha-publish-to-git@master
       with:
-#        repository: thlava-cesnet/test2
+        repository: thlava-cesnet/test2
         branch: from_test1
         github_token: '${{ secrets.GITHUB_TOKEN }}'
         github_pat: '${{ secrets.TOK }}'
