@@ -30,10 +30,9 @@ jobs:
       if: success()
     - uses: seanmiddleditch/gha-publish-to-git@master
       with:
-        repository: thlava-cesnet/test2
+        repository:  oarepo/oarepo
         branch: from_test1
-#        github_token: '${{ secrets.GITHUB_TOKEN }}'
-        github_pat: '${{ secrets.TOK1 }}'
+        github_pat: '${{ secrets.OAR_BOT }}'
         source_folder: comm2test2
         target_folder: commFtest1
       if: success() && github.event_name == 'push'
