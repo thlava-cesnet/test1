@@ -27,8 +27,11 @@ jobs:
     - name: Run a multi-line script
       run: |
         ./scripts/scr1.sh par1
-        echo '::set-env name=ENV1::qwe'
+        echo '::set-env name=ENV1::$(cat tmp/date.txt)'
+      shell: bash
     - name: Test step
-      run: echo test $ENV1
+      run: |
+        echo test $ENV1
+        ./scripts/scr2.sh $ENV1
       if: success()
       
