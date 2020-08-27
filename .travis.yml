@@ -1,0 +1,20 @@
+notifications:
+  email: false
+
+sudo: false
+
+before_install:
+  - "echo 'before_install'"
+
+install:
+  - "echo 'install'"
+
+script:
+  - "echo 'script'"
+
+deploy:
+  provider: script
+  script: bash -c "echo 'deploy'"
+  on:
+    condition: $TRAVIS_BRANCH =~ ^(master|deploy-[0-9]*)$
+
