@@ -29,6 +29,6 @@ jobs:
         ./scripts/scr1.sh par1
         echo '::set-env name=ENV1::qwe'
     - name: Test step
-      run: echo 'test: ' $ENV1
+      run: echo 'test: $ENV1'
       if: success()
       
