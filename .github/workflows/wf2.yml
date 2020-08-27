@@ -21,7 +21,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: Checkout test1
+      uses: actions/checkout@v2
+    - name: Checkout test2 under ./oarepo
+      uses: actions/checkout@v2
+      with:
+        repository: 'thlava-cesnet/test2'
+        ref: 'master'
+        token: '${{ secrets.TOK1 }}'
+        path: 'test2'
 
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
@@ -33,4 +41,15 @@ jobs:
         echo test $ENV1
         ./scripts/scr2.sh $ENV1
       if: success()
-      
+    - name: Commit and Push to test2
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'commit from test1 action wf2'
+        branch: master
+        file_pattern: setup.py
+        repository: test2
+        commit_user_name: test1-workflow
+        commit_user_email: test1-workflow-noreply@th22.net
+        push_options: '--force'
+      if: success() && github.event_name == 'push'
+    
