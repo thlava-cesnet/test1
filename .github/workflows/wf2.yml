@@ -23,7 +23,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout test1
       uses: actions/checkout@v2
-    - name: Checkout test2 under ./oarepo
+    - name: Checkout test2 under ./test2
       uses: actions/checkout@v2
       with:
         repository: 'thlava-cesnet/test2'
