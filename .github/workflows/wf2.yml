@@ -46,7 +46,7 @@ jobs:
       with:
         commit_message: 'commit from test1 action wf2'
         branch: master
-        file_pattern: setup.py
+        file_pattern: d1.txt
         repository: test2
         commit_user_name: test1-workflow
         commit_user_email: test1-workflow-noreply@th22.net
