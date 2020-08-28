@@ -17,4 +17,3 @@ deploy:
   script: bash -c "echo 'deploy'"
   on:
     all_branches: true
-    condition:  $TRAVIS_BRANCH =~ ^(master|invenio-.*)$
