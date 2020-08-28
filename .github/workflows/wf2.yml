@@ -45,7 +45,7 @@ jobs:
     - name: Commit and Push to test2
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: commit from test1 action wf2 (tag ${{ jobs.job1.env.NEWTAG}},${{ jobs.job1.steps.scr1.env.NEWTAG}},${{ steps.scr1.env.NEWTAG}})
+        commit_message: commit from test1 action wf2 (tag ${{ env.NEWTAG}},${{ steps.scr1.env.NEWTAG}})
         branch: master
         file_pattern: d1.txt d2.txt
         repository: test2
