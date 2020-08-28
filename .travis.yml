@@ -16,6 +16,5 @@ deploy:
   provider: script
   script: bash -c "echo 'deploy'"
   on:
-    #all_branches: true
-    branch: none
+    all_branches: true
     

@@ -45,13 +45,13 @@ jobs:
     - name: Commit and Push to test2
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: commit from test1 action wf2 (tag ${{ env.NEWTAG}},${{ steps.scr1.env.NEWTAG}})
+        commit_message: 'commit from test1 action wf2 (tag ${{ env.NEWTAG }})'
         branch: master
         file_pattern: d1.txt d2.txt
         repository: test2
         commit_user_name: test1-workflow
         commit_user_email: test1-workflow-noreply@th22.net
-        #tagging_message: $NEWTAG
+        #tagging_message: ${{ env.NEWTAG }}
         push_options: '--force'
       if: success() && github.event_name == 'push'
     
