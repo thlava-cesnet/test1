@@ -51,7 +51,7 @@ jobs:
         repository: test2
         commit_user_name: test1-workflow
         commit_user_email: test1-workflow-noreply@th22.net
-        #tagging_message: ${{ env.NEWTAG }}
+        tagging_message: ${{ env.NEWTAG }}
         push_options: '--force'
       if: success() && github.event_name == 'push'
     
