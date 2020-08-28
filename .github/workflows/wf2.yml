@@ -35,21 +35,22 @@ jobs:
     - name: Run a multi-line script
       run: |
         ./scripts/scr1.sh par1
-        echo "::set-env name=ENV1::$(cat ./tmp/date.txt)"
+        echo "::set-env name=NEWTAG::$(cat ./tmp/date.txt)"
     - name: Test step
       run: |
-        echo test $ENV1
-        ./scripts/scr2.sh $ENV1
+        echo test $NEWTAG
+        ./scripts/scr2.sh $NEWTAG
       if: success()
     - name: Commit and Push to test2
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: 'commit from test1 action wf2'
+        commit_message: commit from test1 action wf2 (tag $NEWTAG)
         branch: master
         file_pattern: d1.txt d2.txt
         repository: test2
         commit_user_name: test1-workflow
         commit_user_email: test1-workflow-noreply@th22.net
+        #tagging_message: $NEWTAG
         push_options: '--force'
       if: success() && github.event_name == 'push'
     
