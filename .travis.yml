@@ -16,4 +16,4 @@ deploy:
   provider: script
   script: bash -c "echo 'deploy'"
   on:
-    condition: $TRAVIS_BRANCH !~ /^test/
+    condition: NOT $TRAVIS_BRANCH =~ /^test/
