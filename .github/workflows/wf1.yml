@@ -27,15 +27,16 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo 'Test of the action publish-to-git (${{ job.status }})'
-    - uses: seanmiddleditch/gha-publish-to-git@master
-      with:
-        repository: thlava-cesnet/test2
-        branch: from_test1
-        github_pat: '${{ secrets.TOK1 }}'
-        source_folder: comm2test2
-        target_folder: commFtest1
-      if: success() && github.event_name == 'push'
+        echo "::set-env name=NEWTAG::$(date '+%y%m%d-%H%M%S')"
+    #- uses: seanmiddleditch/gha-publish-to-git@master
+    #  with:
+    #    repository: thlava-cesnet/test2
+    #    branch: from_test1
+    #    github_pat: '${{ secrets.TOK1 }}'
+    #    source_folder: comm2test2
+    #    target_folder: commFtest1
+    #  if: success() && github.event_name == 'push'
     - name: Success test step
-      run: echo Success test
+      run: echo Success test (NEWTAG: ${{ env.NEWTAG }})
       if: success()
       
