@@ -40,6 +40,5 @@ jobs:
     - name: Success test step
       run: |
         echo "Success test (NEWTAG: ${{ env.NEWTAG }})"
-        echo "NEWTAG ${{ NEWTAG }}"
       if: success()
       
