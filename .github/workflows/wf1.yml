@@ -37,6 +37,7 @@ jobs:
     #    target_folder: commFtest1
     #  if: success() && github.event_name == 'push'
     - name: Success test step
-      run: echo "Success test (NEWTAG: ${{ env.NEWTAG }})"
+      run: |
+        echo "Success test (NEWTAG: ${{ env.NEWTAG }})"
       if: success()
       
