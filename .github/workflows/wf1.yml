@@ -27,7 +27,8 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo 'Test of the action publish-to-git (${{ job.status }})'
-        echo "::set-env name=NEWTAG::$(date '+%y%m%d-%H%M%S')"
+        #echo "::set-env name=NEWTAG::$(date '+%y%m%d-%H%M%S')"
+        echo "NEWTAG=$(date '+%y%m%d-%H%M%S')" >> $GITHUB_ENV
     #- uses: seanmiddleditch/gha-publish-to-git@master
     #  with:
     #    repository: thlava-cesnet/test2
@@ -39,5 +40,6 @@ jobs:
     - name: Success test step
       run: |
         echo "Success test (NEWTAG: ${{ env.NEWTAG }})"
+        echo "NEWTAG ${{ NEWTAG }}"
       if: success()
       
