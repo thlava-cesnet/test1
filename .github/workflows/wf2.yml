@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: test1_wf2
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+    paths: [ 'tmp/*' ]
+#  pull_request:
+#    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  job1:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout test1
+      uses: actions/checkout@v2
+    - name: Checkout test2 under ./test2
+      uses: actions/checkout@v2
+      with:
+        repository: 'thlava-cesnet/test2'
+        ref: 'master'
+        token: '${{ secrets.TOK1 }}'
+        path: 'test2'
+
+    # Runs a set of commands using the runners shell
+    - name: Run a multi-line script
+      id: scr1
+      run: |
+        ./scripts/scr1.sh par1
+        echo "::set-env name=NEWTAG::$(cat ./tmp/date.txt)"
+    - name: Test step
+      run: |
+        echo test $NEWTAG
+        ./scripts/scr2.sh $NEWTAG
+      if: success()
+    - name: Commit and Push to test2
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: 'commit from test1 action wf2 (tag ${{ env.NEWTAG }})'
+        branch: master
+        file_pattern: d1.txt d2.txt
+        repository: test2
+        commit_user_name: test1-workflow
+        commit_user_email: test1-workflow-noreply@th22.net
+        tagging_message: ${{ env.NEWTAG }}
+        push_options: '--force'
+      if: success() && github.event_name == 'push'
+    
