@@ -1,3 +1,6 @@
 [submodule "test2"]
 	path = test2
 	url = git@github.com:thlava-cesnet/test2.git
+[submodule ".github/actions-test"]
+	path = .github/actions-test
+	url = git@github.com:thlava-cesnet/actions-test
