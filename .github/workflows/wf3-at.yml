@@ -40,8 +40,8 @@ jobs:
         ls -la '${{ github.workspace }}'
         echo 'pwd:'
         pwd
-        echo 'actions-test/v7 ls:'
-        ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/v7
+        echo 'actions-test/v8 ls:'
+        ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/v8
         echo 'success step done.'
       if: success()
       
