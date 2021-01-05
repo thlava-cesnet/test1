@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: wf3-af
+name: wf3-at
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     # Runs a set of commands using the runners shell
     - id: actions-test-action1-call
       name: 'actions-test/action1 call'
-      uses: thlava-cesnet/actions-test@v5
+      uses: thlava-cesnet/actions-test@v6
       with:
         input1: 'wf3-INPUT1'
     - name: Success test step
@@ -28,11 +28,16 @@ jobs:
         echo "Success test (output: ${{ steps.actions-test-action1-call.outputs.output1 }})"
         echo 'github.action: ${{ github.action }}'
         echo 'github.action_path: ${{ github.action_path }}'
-        echo 'github.event: ${{ github.event }}'
+        echo 'github.event_name: ${{ github.event_name }}'
         echo 'github.event_path: ${{ github.event_path }}'
         echo 'github.job: ${{ github.job }}'
         echo 'github.repository: ${{ github.repository }}'
         echo 'github.workflow: ${{ github.workflow }}'
         echo 'github.workspace: ${{ github.workspace }}'
+        echo 'github.event_path cat:'
+        cat '${{ github.event_path }}'
+        echo 'github.action_path ls:'
+        ls -l '${{ github.action_path }}'
+        echo 'success step done.'
       if: success()
       
