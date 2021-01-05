@@ -5,7 +5,7 @@ name: wf3-at
 on:
   push:
     branches: [ master ]
-    paths: [ 'wf3-af-trig.txt' ]
+    paths: [ 'wf3-at-trig.txt' ]
 #  pull_request:
 #    branches: [ master ]
 
