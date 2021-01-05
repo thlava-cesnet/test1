@@ -20,7 +20,7 @@ jobs:
     # Runs a set of commands using the runners shell
     - id: actions-test-action1-call
       name: 'actions-test/action1 call'
-      uses: thlava-cesnet/actions-test@v3
+      uses: thlava-cesnet/actions-test@v4
       with:
         input1: 'wf3-INPUT1'
     - name: Success test step
@@ -28,6 +28,11 @@ jobs:
         echo "Success test (output: ${{ steps.actions-test-action1-call.outputs.output1 }})"
         echo 'github.action: ${{ github.action }}'
         echo 'github.action_path: ${{ github.action_path }}'
-        echo 'github context: ${{ github }}'
+        echo 'github.event: ${{ github.event }}'
+        echo 'github.event_path: ${{ github.event_path }}'
+        echo 'github.job: ${{ github.job }}'
+        echo 'github.repository: ${{ github.repository }}'
+        echo 'github.workflow: ${{ github.workflow }}'
+        echo 'github.workspace: ${{ github.workspace }}'
       if: success()
       
