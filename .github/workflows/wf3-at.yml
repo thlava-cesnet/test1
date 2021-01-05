@@ -37,7 +37,11 @@ jobs:
         #echo 'github.event_path cat:'
         #cat '${{ github.event_path }}'
         echo 'github.workspace ls:'
-        ls -l '${{ github.workspace }}'
+        ls -la '${{ github.workspace }}'
+        echo 'pwd:'
+        pwd
+        echo 'actions-test/v7 ls:'
+        ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/v7
         echo 'success step done.'
       if: success()
       
