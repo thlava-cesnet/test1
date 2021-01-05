@@ -26,5 +26,8 @@ jobs:
     - name: Success test step
       run: |
         echo "Success test (output: ${{ steps.actions-test-action1-call.outputs.output1 }})"
+        echo 'github.action: ${{ github.action }}'
+        echo 'github.action_path: ${{ github.action_path }}'
+        echo 'github context: ${{ github }}'
       if: success()
       
