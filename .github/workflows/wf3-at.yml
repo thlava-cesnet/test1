@@ -13,8 +13,6 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS-TEST-TAG: HEAD
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
@@ -22,7 +20,7 @@ jobs:
     # Runs a set of commands using the runners shell
     - id: actions-test-action1-call
       name: 'actions-test/action1 call'
-      uses: 'thlava-cesnet/actions-test@${{ env.ACTIONS-TEST-TAG }}'
+      uses: thlava-cesnet/actions-test@HEAD
       with:
         input1: 'wf3-INPUT1'
     - name: Success test step
@@ -42,8 +40,8 @@ jobs:
         ls -la '${{ github.workspace }}'
         echo 'pwd:'
         pwd
-        echo 'actions-test/${{ env.ACTIONS-TEST-TAG }} ls:'
-        ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/${{ env.ACTIONS-TEST-TAG }}
+        echo 'actions-test/HEAD ls:'
+        ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/HEAD
         echo 'success step done.'
       if: success()
       
