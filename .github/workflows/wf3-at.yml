@@ -5,7 +5,7 @@ name: wf3-at
 on:
   push:
     branches: [ master ]
-    paths: [ 'wf3-at-trig.txt' ]
+#    paths: [ 'wf3-at-trig.txt' ]
 #  pull_request:
 #    branches: [ master ]
 
@@ -22,7 +22,7 @@ jobs:
     # Runs a set of commands using the runners shell
     - id: actions-test-action1-call
       name: 'actions-test/action1 call'
-      uses: thlava-cesnet/actions-test@${{ env.ACTIONS-TEST-TAG }}
+      uses: 'thlava-cesnet/actions-test@${{ env.ACTIONS-TEST-TAG }}'
       with:
         input1: 'wf3-INPUT1'
     - name: Success test step
