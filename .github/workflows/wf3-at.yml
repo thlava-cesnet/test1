@@ -44,4 +44,10 @@ jobs:
         ls -la /home/runner/work/_actions/thlava-cesnet/actions-test/HEAD
         echo 'success step done.'
       if: success()
+
+    - id: python-deploy-ghaction-call
+      name: 'oarepo/python-deploy-ghaction call'
+      uses: oarepo/python-deploy-ghaction@HEAD
+#      with:
+#        use-elasticsearch: true
       
