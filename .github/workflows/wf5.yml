@@ -74,5 +74,5 @@ jobs:
           git config --global user.email noreply@cesnet.cz
           git add "$DOC"
           git commit -m "commit $ISN_Z"
-          git push
+          git push --set-upstream origin "$BRANCH"
           echo "Done."
