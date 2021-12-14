@@ -26,28 +26,27 @@ jobs:
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
           printf -v ISN_Z "%04d" "$ISN"
           DATE=$(date '+%Y-%m-%d')
-          TITLE="test-tit"
+          TITLE="$(curl -s "$APIURL/$ISN2" | jq '.title')"
+          AUTHOR="$(curl -s "$APIURL/$ISN2" | jq '.user.login')"
           DOC="docs/$ISN_Z-$TITLE.md"
-          echo "$DOC"
+          echo "$DOC - $TITLE ($AUTHOR)"
           echo "----"
           curl -s "$APIURL/$ISN2"
           echo "---- title, login"
-          curl -s "$APIURL/$ISN2" | jq '.title'
-          curl -s "$APIURL/$ISN2" | jq '.user.login'
           echo "----"
           echo "ISN_Z=$ISN_Z" >> $GITHUB_ENV
           echo "DOC=$DOC" >> $GITHUB_ENV
-          echo "$ISN/$ISN_Z" >> test.log
-          date '+%y%m%d-%H%M%S' >> test.log
           cp $TEMPLATE "$DOC"
           sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
+          sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
+          sed -i "/^# <RFC title>/ s/<RFC title>/$TITLE/" "$DOC"
       - name: Commit back
         run: |
           echo "Start [$ISN_Z]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git checkout -b "rfc-$ISN_Z"
-          git add test.log "$DOC"
+          git add "$DOC"
           git commit -m "commit $ISN_Z"
           git push --set-upstream origin "rfc-$ISN_Z"
           echo "Done."
