@@ -25,23 +25,15 @@ jobs:
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
           printf -v ISN_Z "%04d" "$ISN"
           DATE=$(date '+%Y-%m-%d')
-          TITLE0="$(curl -s "$APIURL/$ISN2" | jq -r '.title')"
+          ISSUE="$(curl -s "$APIURL/$ISN2")"
+          TITLE0="$(echo "$ISSUE" | jq -r '.title')"
           TITLE="${TITLE0##\[*\] }"
           TITLE="${TITLE,,}"
-          TITLE="${TITLE/ / -}"
-          AUTHOR="$(curl -s "$APIURL/$ISN2" | jq -r '.user.login')"
+          TITLE="${TITLE// / -}"
+          AUTHOR="$(echo "$ISSUE" | jq -r '.user.login')"
           DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC - $TITLE0 ($TITLE) [$AUTHOR]"
-          echo "----"
-          curl -s "$APIURL/$ISN2"
-          echo "---- title, login"
-          echo "----"
-          cat <<EOT >> $GITHUB_ENV
-            ISN_Z=$ISN_Z
-            BRANCH=rfc-$ISN_Z
-            DOC=$DOC
-            TITLE0=$TITLE0
-          EOT
+          echo -e "ISN_Z=$ISN_Z\nBRANCH=rfc-$ISN_Z\nDOC=$DOC\nTITLE0=$TITLE0" >> $GITHUB_ENV
           cp $TEMPLATE "$DOC"
           sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
           sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
