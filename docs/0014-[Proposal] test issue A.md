@@ -1,5 +1,5 @@
 - Start Date: 2021-12-14
-- RFC PR: [#<PR>](https://github.com/thlava-cesnet/test1/pull/<PR>)
+- RFC PR: [#10](https://github.com/thlava-cesnet/test1/pull/10)
 - Authors: thlava-cesnet
 - State: DRAFT
 
