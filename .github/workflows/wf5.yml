@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ISN: ${{ github.event.inputs.issuenum }}
-      ISN2: 12
+      ISN2: 16
       TEMPLATE: 0000-template.md
       APIURL: https://api.github.com/repos/thlava-cesnet/test1/issues
     steps:
@@ -57,7 +57,7 @@ jobs:
           committer: oarepo-bot <noreply@cesnet.cz>
           body: |
             PR for issue "${{ env.TITLE0 }}"
-            'close #${{ env.ISN2 }}'
+            close #${{ env.ISN2 }}
           title: '[Test] PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
