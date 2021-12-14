@@ -24,9 +24,10 @@ jobs:
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
           printf -v ISSUENUM_Z "%04d" "$ISSUENUM"
           TITLE="test-tit"
-          DOC="$ISSUENUM_Z-$TITLE"
+          DOC="$ISSUENUM_Z-$TITLE.md"
           echo "$DOC"
           echo "ISSUENUM_Z=$ISSUENUM_Z" >> $GITHUB_ENV
+          echo "DOC=$DOC" >> $GITHUB_ENV
           echo "$ISSUENUM/$ISSUENUM_Z" >> test.log
           date '+%y%m%d-%H%M%S' >> test.log
           cp $TEMPLATE "$DOC"
@@ -35,8 +36,8 @@ jobs:
           echo "Start [$ISSUENUM_Z]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
-          git checkout -b "rtc-$ISSUENUM_Z"
+          git checkout -b "rfc-$ISSUENUM_Z"
           git add test.log "$DOC"
           git commit -m "commit $ISSUENUM_Z"
-          git push --set-upstream origin "rtc-$ISSUENUM_Z"
+          git push --set-upstream origin "rfc-$ISSUENUM_Z"
           echo "Done."
