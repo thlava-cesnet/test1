@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ISN: ${{ github.event.inputs.issuenum }}
+      ISN2: 2
       TEMPLATE: 0000-template.md
+      APIURL: https://api.github.com/repos/thlava-cesnet/test1/issues
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
@@ -28,9 +30,11 @@ jobs:
           DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC"
           echo "----"
-          curl -s "https://api.github.com/repos/thlava-cesnet/test1/issues/$ISN"
+          curl -s "$APIURL/$ISN2"
+          echo "---- title, login"
+          curl -s "$APIURL/$ISN2" | jq '.title'
+          curl -s "$APIURL/$ISN2" | jq '.user.login'
           echo "----"
-          curl -s "https://api.github.com/repos/thlava-cesnet/test1/issues/$ISN" | jq '.title'
           echo "ISN_Z=$ISN_Z" >> $GITHUB_ENV
           echo "DOC=$DOC" >> $GITHUB_ENV
           echo "$ISN/$ISN_Z" >> test.log
