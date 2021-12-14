@@ -56,7 +56,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.TH_BOT }}
-          commit-message: "init - fix #${{ env.ISN }}"
+          commit-message: "init - fix #${{ env.ISN2 }}"
           committer: oarepo-bot <noreply@cesnet.cz>
           body: "PR for issue #${{ env.ISN }}"
           TITLE: '[Test] PR for issue ${{ env.ISN }} '
