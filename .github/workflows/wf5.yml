@@ -69,7 +69,7 @@ jobs:
         run: |
           PRN=${{ steps.cpr.outputs.pull-request-number }}
           PR_URL=${{ steps.cpr.outputs.pull-request-url }}
-          sed -i "/^- RFC PR:/ { s/<PR>/$PRN/ ; s/(.*)/$PR_URL/ }" "$DOC"
+          sed -i "/^- RFC PR:/ { s/<PR>/$PRN/ ; s/(.*)/${PR_URL////\\/}/ }" "$DOC"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add "$DOC"
