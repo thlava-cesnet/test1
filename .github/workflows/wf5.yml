@@ -26,8 +26,8 @@ jobs:
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
           printf -v ISN_Z "%04d" "$ISN"
           DATE=$(date '+%Y-%m-%d')
-          TITLE="$(curl -s "$APIURL/$ISN2" | jq '.title')"
-          AUTHOR="$(curl -s "$APIURL/$ISN2" | jq '.user.login')"
+          TITLE="$(curl -s "$APIURL/$ISN2" | jq -r '.title')"
+          AUTHOR="$(curl -s "$APIURL/$ISN2" | jq -r '.user.login')"
           DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC - $TITLE ($AUTHOR)"
           echo "----"
@@ -35,18 +35,28 @@ jobs:
           echo "---- title, login"
           echo "----"
           echo "ISN_Z=$ISN_Z" >> $GITHUB_ENV
+          echo "BRANCH=rfc-$ISN_Z" >> $GITHUB_ENV
           echo "DOC=$DOC" >> $GITHUB_ENV
           cp $TEMPLATE "$DOC"
           sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
           sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
           sed -i "/^# <RFC title>/ s/<RFC title>/$TITLE/" "$DOC"
-      - name: Commit back
-        run: |
-          echo "Start [$ISN_Z]"
-          git config --global user.name oarepo-bot
-          git config --global user.email noreply@cesnet.cz
-          git checkout -b "rfc-$ISN_Z"
-          git add "$DOC"
-          git commit -m "commit $ISN_Z"
-          git push --set-upstream origin "rfc-$ISN_Z"
-          echo "Done."
+#      - name: Commit back
+#        run: |
+#          echo "Start [$BRANCH]"
+#          git config --global user.name oarepo-bot
+#          git config --global user.email noreply@cesnet.cz
+#          git checkout -b "$BRANCH"
+#          git add "$DOC"
+#          git commit -m "commit $ISN_Z"
+#          git push --set-upstream origin "$BRANCH"
+#          echo "Done."
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.TH_BOT }}
+          commit-message: commit $ISN_Z
+          committer: oarepo-bot <noreply@cesnet.cz>
+          body: PR for issue $ISN
+          TITLE: '[Test] PR for issue $ISN'
+          branch: $BRANCH
