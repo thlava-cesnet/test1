@@ -62,8 +62,7 @@ jobs:
           committer: oarepo-bot <noreply@cesnet.cz>
           body: "PR for issue #${{ env.ISN }}"
           title: '[Test] PR for issue ${{ env.ISN }} '
-          #branch: ${{ env.BRANCH }}
-          branch: master
+          branch: ${{ env.BRANCH }}
       - name: Outputs
         run: |
           echo "#${{ steps.cpr.outputs.pull-request-number }}"
