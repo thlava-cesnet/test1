@@ -36,9 +36,12 @@ jobs:
           curl -s "$APIURL/$ISN2"
           echo "---- title, login"
           echo "----"
-          echo "ISN_Z=$ISN_Z" >> $GITHUB_ENV
-          echo "BRANCH=rfc-$ISN_Z" >> $GITHUB_ENV
-          echo "DOC=$DOC" >> $GITHUB_ENV
+          cat <<EOT >> $GITHUB_ENV
+            ISN_Z=$ISN_Z
+            BRANCH=rfc-$ISN_Z
+            DOC=$DOC
+            TITLE0=$TITLE0
+          EOT
           cp $TEMPLATE "$DOC"
           sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
           sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
@@ -60,8 +63,8 @@ jobs:
           token: ${{ secrets.TH_BOT }}
           commit-message: "init - close #${{ env.ISN2 }}"
           committer: oarepo-bot <noreply@cesnet.cz>
-          body: "PR for issue #${{ env.ISN }}"
-          title: '[Test] PR for issue ${{ env.ISN }} '
+          body: 'PR for issue "${{ env.TITLE0 }}"'
+          title: '[Test] PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
         run: |
