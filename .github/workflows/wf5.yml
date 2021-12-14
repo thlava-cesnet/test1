@@ -55,7 +55,9 @@ jobs:
           token: ${{ secrets.TH_BOT }}
           commit-message: "init"
           committer: oarepo-bot <noreply@cesnet.cz>
-          body: 'PR for issue "${{ env.TITLE0 }}"\nclose #${{ env.ISN2 }}'
+          body: |
+            PR for issue "${{ env.TITLE0 }}"
+            'close #${{ env.ISN2 }}'
           title: '[Test] PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
