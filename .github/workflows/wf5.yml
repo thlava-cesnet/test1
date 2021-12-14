@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      ISSUENUM: ${{ github.event.inputs.issuenum }}
+      ISN: ${{ github.event.inputs.issuenum }}
       TEMPLATE: 0000-template.md
     steps:
       - name: Checkout oarepo/rfcs
@@ -22,22 +22,28 @@ jobs:
       - name: with input "#"${{ github.event.inputs.issuenum }}
         run: |
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
-          printf -v ISSUENUM_Z "%04d" "$ISSUENUM"
+          printf -v ISN_Z "%04d" "$ISN"
+          DATE=$(date '+%Y-%m-%d')
           TITLE="test-tit"
-          DOC="$ISSUENUM_Z-$TITLE.md"
+          DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC"
-          echo "ISSUENUM_Z=$ISSUENUM_Z" >> $GITHUB_ENV
+          echo "----"
+          curl -s "https://api.github.com/repos/thlava-cesnet/test1/issues/$ISN"
+          echo "----"
+          curl -s "https://api.github.com/repos/thlava-cesnet/test1/issues/$ISN" | jq '.title'
+          echo "ISN_Z=$ISN_Z" >> $GITHUB_ENV
           echo "DOC=$DOC" >> $GITHUB_ENV
-          echo "$ISSUENUM/$ISSUENUM_Z" >> test.log
+          echo "$ISN/$ISN_Z" >> test.log
           date '+%y%m%d-%H%M%S' >> test.log
           cp $TEMPLATE "$DOC"
+          sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
       - name: Commit back
         run: |
-          echo "Start [$ISSUENUM_Z]"
+          echo "Start [$ISN_Z]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
-          git checkout -b "rfc-$ISSUENUM_Z"
+          git checkout -b "rfc-$ISN_Z"
           git add test.log "$DOC"
-          git commit -m "commit $ISSUENUM_Z"
-          git push --set-upstream origin "rfc-$ISSUENUM_Z"
+          git commit -m "commit $ISN_Z"
+          git push --set-upstream origin "rfc-$ISN_Z"
           echo "Done."
