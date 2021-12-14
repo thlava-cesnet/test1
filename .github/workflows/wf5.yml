@@ -56,9 +56,9 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.TH_BOT }}
-          commit-message: commit ${{ env.ISN_Z }}
+          commit-message: "init - fix #${{ env.ISN }}"
           committer: oarepo-bot <noreply@cesnet.cz>
-          body: PR for issue ${{ env.ISN }}
+          body: "PR for issue #${{ env.ISN }}"
           TITLE: '[Test] PR for issue ${{ env.ISN }} '
           branch: ${{ env.BRANCH }}
       - name: Outputs
@@ -69,10 +69,10 @@ jobs:
         run: |
           PRN=${{ steps.cpr.outputs.pull-request-number }}
           PR_URL=${{ steps.cpr.outputs.pull-request-url }}
-          sed -i "/^- RFC PR:/ { s/<PR>/$PRN/ ; s/(.*)/${PR_URL////\\/}/ }" "$DOC"
+          sed -i "/^- RFC PR:/ { s/<PR>/$PRN/g ; s/(.*)/(${PR_URL////\\/})/ }" "$DOC"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add "$DOC"
-          git commit -m "commit $ISN_Z"
+          git commit -m "PR url"
           git push --set-upstream origin "$BRANCH"
           echo "Done."
