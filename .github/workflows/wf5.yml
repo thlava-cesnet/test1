@@ -56,7 +56,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.TH_BOT }}
-          commit-message: "init - fix #${{ env.ISN2 }}"
+          commit-message: "init - close #${{ env.ISN2 }}"
           committer: oarepo-bot <noreply@cesnet.cz>
           body: "PR for issue #${{ env.ISN }}"
           TITLE: '[Test] PR for issue ${{ env.ISN }} '
@@ -73,6 +73,6 @@ jobs:
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add "$DOC"
-          git commit -m "PR url - fix #$ISN2"
+          git commit -m "PR url - resolves #$ISN2"
           git push --set-upstream origin "$BRANCH"
           echo "Done."
