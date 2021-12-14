@@ -1,37 +1,42 @@
 
-name: Test workflow
+name: New RFC
 
 on:
   workflow_dispatch:
     inputs:
-      title:
-        description: Title
-        required: false
-        default: default_title
+      issuenum:
+        description: Issue number
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      TITLE: ${{ github.event.inputs.title }}
+      ISSUENUM: ${{ github.event.inputs.issuenum }}
+      TEMPLATE: 0000-template.md
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.TH_BOT }}
-      - name: with input ${{ github.event.inputs.title }}
+      - name: with input "#"${{ github.event.inputs.issuenum }}
         run: |
-          echo "Test of input, title:${{ github.event.inputs.title }}"
-          echo "${{ github.event.inputs.title }}/$TITLE" >> test.log
+          echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
+          printf -v ISSUENUM_Z "%04d" "$ISSUENUM"
+          TITLE="test-tit"
+          DOC="$ISSUENUM_Z-$TITLE"
+          echo "$DOC"
+          echo "ISSUENUM_Z=$ISSUENUM_Z" >> $GITHUB_ENV
+          echo "$ISSUENUM/$ISSUENUM_Z" >> test.log
           date '+%y%m%d-%H%M%S' >> test.log
+          cp $TEMPLATE "$DOC"
       - name: Commit back
         run: |
-          echo "Start [$TITLE]"
+          echo "Start [$ISSUENUM_Z]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
-          cat test.log
-          git checkout -b "rtc-$TITLE"
-          git add test.log
-          git commit -m "commit $TITLE"
-          git push --set-upstream origin "rtc-$TITLE"
+          git checkout -b "rtc-$ISSUENUM_Z"
+          git add test.log "$DOC"
+          git commit -m "commit $ISSUENUM_Z"
+          git push --set-upstream origin "rtc-$ISSUENUM_Z"
           echo "Done."
