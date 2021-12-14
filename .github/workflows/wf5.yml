@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
-        with:
-				  token: ${{ secrets.TH_BOT }}
+        #with:
+				#  token: ${{ secrets.TH_BOT }}
       - name: with input ${{ github.event.inputs.title }}
         run: |
           echo "Test of input, title:${{ github.event.inputs.title }}"
