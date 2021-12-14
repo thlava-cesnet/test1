@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
+        with:
+				  token: ${{ secrets.TH_BOT }}
       - name: with input ${{ github.event.inputs.title }}
         run: |
           echo "Test of input, title:${{ github.event.inputs.title }}"
@@ -28,5 +30,8 @@ jobs:
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           cat test.log
-          #git checkout -b "$TITLE"
+          git checkout -b "rtc-$TITLE"
+          git add test.log
+          git commit -m "commit $TITLE"
+          git push --set-upstream origin "rtc-$TITLE"
           echo "Done."
