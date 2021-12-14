@@ -29,7 +29,7 @@ jobs:
           TITLE0="$(echo "$ISSUE" | jq -r '.title')"
           TITLE="${TITLE0##\[*\] }"
           TITLE="${TITLE,,}"
-          TITLE="${TITLE// / -}"
+          TITLE="${TITLE// /-}"
           AUTHOR="$(echo "$ISSUE" | jq -r '.user.login')"
           DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC - $TITLE0 ($TITLE) [$AUTHOR]"
@@ -53,9 +53,9 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.TH_BOT }}
-          commit-message: "init - close #${{ env.ISN2 }}"
+          commit-message: "init"
           committer: oarepo-bot <noreply@cesnet.cz>
-          body: 'PR for issue "${{ env.TITLE0 }}"'
+          body: 'PR for issue "${{ env.TITLE0 }}"\nclose #${{ env.ISN2 }}'
           title: '[Test] PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
@@ -70,6 +70,6 @@ jobs:
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add "$DOC"
-          git commit -m "PR url - resolves #$ISN2"
+          git commit -m "PR url added to RFC doc"
           git push --set-upstream origin "$BRANCH"
           echo "Done."
