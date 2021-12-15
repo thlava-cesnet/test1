@@ -1,4 +1,4 @@
-name: New RFC
+name: new-rfc
 
 on:
   workflow_dispatch:
@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ISN: ${{ github.event.inputs.issuenum }}
-      ISN2: ${{ github.event.inputs.issuenum }}
       TEMPLATE: 0000-template.md
       APIURL: https://api.github.com/repos/thlava-cesnet/test1/issues
     steps:
@@ -25,7 +24,7 @@ jobs:
           echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
           printf -v ISN_Z "%04d" "$ISN"
           DATE=$(date '+%Y-%m-%d')
-          ISSUE="$(curl -s "$APIURL/$ISN2")"
+          ISSUE="$(curl -s "$APIURL/$ISN")"
           TITLE0="$(echo "$ISSUE" | jq -r '.title')"
           TITLE="${TITLE0##\[*\] }"
           TITLE="${TITLE,,}"
@@ -34,7 +33,7 @@ jobs:
           URL="$(echo "$ISSUE" | jq -r '.html_url')"
           DOC="docs/$ISN_Z-$TITLE.md"
           echo "$DOC - $TITLE0 ($TITLE) [$AUTHOR]"
-          echo -e "ISN_Z=$ISN_Z\nBRANCH=rfc-$ISN_Z\nDOC=$DOC\nTITLE0=$TITLE0\nURL=$URL" >> $GITHUB_ENV
+          echo -e "ISN_Z=$ISN_Z\nBRANCH=rfc-$ISN\nDOC=$DOC\nTITLE0=$TITLE0\nURL=$URL" >> $GITHUB_ENV
           cp $TEMPLATE "$DOC"
           sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
           sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
@@ -57,8 +56,8 @@ jobs:
           commit-message: "init"
           committer: oarepo-bot <noreply@cesnet.cz>
           body: |
-            PR for issue [${{ env.TITLE0 }}](${{ env.URL }})
-            close #${{ env.ISN2 }}
+            PR for issue "[${{ env.TITLE0 }}](${{ env.URL }})"
+            close #${{ env.ISN }}
           title: '[Test] PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
