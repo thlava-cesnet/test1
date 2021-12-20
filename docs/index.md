@@ -5,7 +5,7 @@
   ovewritten by GHaction "update index.md" trigerred by push
 -->
 <!--ts-->
-abcdef
+* [[Proposal] test issue F](../../rfc-26/docs/0026-test-issue-f.md)
 <!--te-->
 
 .
