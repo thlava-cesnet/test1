@@ -20,14 +20,16 @@ jobs:
           BRANCHES="$(curl -s "$APIURL/git/refs/heads" | jq -r '.[]|select(.ref|test("^refs/heads/rfc-")).ref' | sed 's/^refs\/heads\///')"
           for BR in $BRANCHES; do echo "BR:>$BR<"
             COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/$BR" | jq -r '.object.url')
-            echo "$COMMIT_URL"
             TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
             DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
             RFC_FILE=$(curl -s "$DOCS_URL" | jq -r '.tree[]|select(.path|test("^[0-9]{4}")).path')
             echo "$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
+            echo -e "\n* [$TITLE](../../$BR/docs/$RFC_FILE)" >> docs/index.md
           done
+          cat docs/index.md
+          git diff
 #      - name: Commit back
 #        run: |
 #          git config --global user.name oarepo-bot
