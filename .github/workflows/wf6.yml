@@ -1,6 +1,11 @@
 name: update index.md
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths-ignore: [ 'docs/index.md' ]
+  pull_request:
+    paths-ignore: [ 'docs/index.md' ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,6 +41,5 @@ jobs:
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add $INDEX
-          git commit -m "$INDEX regenerate"
-          git push
+          git commit -m "$INDEX regenerate" -m "[skip ci]" && git push
           echo "Done."
