@@ -32,7 +32,10 @@ jobs:
             echo "$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
-            echo -e "\n* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX
+            sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp && \
+            echo "* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp && \
+            sed -n '/^<!--te-->/,$ p' < $INDEX >> $INDEX.tmp && \
+            mv $INDEX.tmp $INDEX
           done
           cat $INDEX
           git diff
