@@ -35,7 +35,7 @@ jobs:
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
             # list item:
-            echo "* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp
+            echo "* [$BR: $TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp
           done
           # index section from regexp to eof:
           sed -n '/^<!--te-->/,$ p' < $INDEX >> $INDEX.tmp
