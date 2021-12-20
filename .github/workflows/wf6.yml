@@ -24,6 +24,8 @@ jobs:
           DATE=$(date '+%Y-%m-%d')
           git branch --format='%(refname:short)'
           BRANCHES="$(curl -s "$APIURL/git/refs/heads" | jq -r '.[]|select(.ref|test("^refs/heads/rfc-")).ref' | sed 's/^refs\/heads\///')"
+          # index section from start to regexp:
+          sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp
           for BR in $BRANCHES; do echo "BR:>$BR<"
             COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/$BR" | jq -r '.object.url')
             TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
@@ -32,13 +34,12 @@ jobs:
             echo "$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
-            sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp && \
-            echo "* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp && \
-            sed -n '/^<!--te-->/,$ p' < $INDEX >> $INDEX.tmp && \
-            mv $INDEX.tmp $INDEX
+            # list item:
+            echo "* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp
           done
-          cat $INDEX
-          git diff
+          # index section from regexp to eof:
+          sed -n '/^<!--te-->/,$ p' < $INDEX >> $INDEX.tmp
+          mv $INDEX.tmp $INDEX
       - name: Commit back
         run: |
           git config --global user.name oarepo-bot
