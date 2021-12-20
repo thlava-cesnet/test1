@@ -8,12 +8,13 @@ jobs:
     env:
       APIURL: https://api.github.com/repos/thlava-cesnet/test1
       RAWURL: https://raw.githubusercontent.com/thlava-cesnet/test1
+      INDEX: docs/index.md
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.TH_BOT }}
-      - name: docs/index.md regenerate
+      - name: $INDEX regenerate
         run: |
           DATE=$(date '+%Y-%m-%d')
           git branch --format='%(refname:short)'
@@ -26,15 +27,15 @@ jobs:
             echo "$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
-            echo -e "\n* [$TITLE](../../$BR/docs/$RFC_FILE)" >> docs/index.md
+            echo -e "\n* [$TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX
           done
-          cat docs/index.md
+          cat $INDEX
           git diff
-#      - name: Commit back
-#        run: |
-#          git config --global user.name oarepo-bot
-#          git config --global user.email noreply@cesnet.cz
-#          git add docs/index.md
-#          git commit -m "docs/index.md regenerate"
-#          git push
-#          echo "Done."
+      - name: Commit back
+        run: |
+          git config --global user.name oarepo-bot
+          git config --global user.email noreply@cesnet.cz
+          git add $INDEX
+          git commit -m "$INDEX regenerate"
+          git push
+          echo "Done."
