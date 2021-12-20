@@ -53,7 +53,9 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.TH_BOT }}
-          commit-message: "init"
+          commit-message: |
+            "init"
+            "skip ci"
           committer: oarepo-bot <noreply@cesnet.cz>
           body: |
             PR for issue "[${{ env.TITLE0 }}](${{ env.URL }})"
