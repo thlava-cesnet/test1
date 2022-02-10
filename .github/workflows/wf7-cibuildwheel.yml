@@ -1,0 +1,32 @@
+name: CIbuildwheel test
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build_wheels:
+    name: Bild wheel on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, maxOS-10.15]
+    env:
+      INDEX: docs/index.md
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.3.1
+        
+      - name: Bild wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+        #env:
+        #  CIBW_SOME_OPTION: value
+        
+      - name: Debug
+        run: ls -l wheelhouse
+        

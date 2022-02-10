@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    # DISABLED
+    if: "contains(github.event.head_commit.message, '[FORCE]')"
     runs-on: ubuntu-20.04
     env:
       APIURL: https://api.github.com/repos/thlava-cesnet/test1
