@@ -1,4 +1,4 @@
-# OARepo RFCs Index
+# RFCs Index
 
 <!--
   The part between --ts-- and --te-- comments are automatically
