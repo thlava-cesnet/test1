@@ -24,8 +24,8 @@ jobs:
         
       - name: Bild wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        #env:
-        #  CIBW_SOME_OPTION: value
+        env:
+          CIBW_BUILD_VERBOSITY: 1
         
       - name: Debug
         run: ls -l wheelhouse
