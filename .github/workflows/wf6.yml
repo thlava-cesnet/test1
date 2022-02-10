@@ -1,15 +1,15 @@
 name: Index updater
 
 on:
-  push:
-    paths-ignore: [ 'docs/index.md' ]
-  pull_request:
-    paths-ignore: [ 'docs/index.md' ]
+# DISABLED
+#  push:
+#    paths-ignore: [ 'docs/index.md' ]
+#  pull_request:
+#    paths-ignore: [ 'docs/index.md' ]
   workflow_dispatch:
 
 jobs:
   build:
-    # DISABLED
     if: "contains(github.event.head_commit.message, '[FORCE]')"
     runs-on: ubuntu-20.04
     env:
