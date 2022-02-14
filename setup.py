@@ -9,7 +9,7 @@ readme = open('README.md').read()
 
 extras_require = {
     'tests': [
-    'click==7.1.2',
+        'click==7.1.2',
         'pytest==4.6.11',
         'six==1.16.0',
     ]
@@ -42,7 +42,7 @@ setup(
     license='MIT',
     author='th22.net',
     author_email='hlava@cesnet.cz',
-    url='https://github.com/thlava-cesnet/test1',
+#    url='https://github.com/thlava-cesnet/test1',
     packages=packages,
     zip_safe=False,
     include_package_data=True,
