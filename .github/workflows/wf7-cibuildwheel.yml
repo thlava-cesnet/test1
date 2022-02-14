@@ -35,7 +35,7 @@ jobs:
       - name: Build sdist/bdist_wheel and reqs.txt
         run: |
           python setup.py sdist bdist_wheel
-          pip freeze | grep -v '^-e'  reqs.txt
+          pip freeze | grep -v '^-e' > reqs.txt
           cat reqs.txt
 
       - name: Run pip wheel
