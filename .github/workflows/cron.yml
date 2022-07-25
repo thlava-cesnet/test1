@@ -32,6 +32,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ env.BRANCH }}
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: install bump
+        run: |
+          pip install bump
       - name: get bumped version
         run: |
           # extract version from pyproject.toml:
