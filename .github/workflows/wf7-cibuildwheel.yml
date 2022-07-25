@@ -1,8 +1,9 @@
 name: CIbuildwheel test
 
 on:
-  push:
-    branches: [ master ]
+# DISABLED
+#  push:
+#    branches: [ master ]
   workflow_dispatch:
 
 jobs:
