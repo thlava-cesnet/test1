@@ -1,0 +1,39 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 CESNET.
+#
+# invenio-integration-tests is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+
+name: version bump, w.cron supp.
+
+on:
+  schedule:
+    # every sat. at 7:51 GMT
+    - cron: '51 7 * * 6'
+    # debug run
+    #- cron: '10 17 * * *'
+    #- cron: '50 7 * * 5'
+  workflow_dispatch:
+
+jobs:
+  cron-wf-trig:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        branch: [ 'master' ]
+    env:
+      BRANCH: ${{ matrix.branch }}
+      PYPROJECT: "./pyproject.toml"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH }}
+      - name: get bumped version
+        run: |
+          # extract version from pyproject.toml:
+          VER=$(sed -n '/^version = / {s/^[^\x27"]\+[\x27"]\([0-9a-z\.]\+\)[\x27"]$/\1/;p}' "${{ env.PYPROJECT }}")
+          echo "$VER"
