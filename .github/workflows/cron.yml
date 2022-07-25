@@ -50,9 +50,9 @@ jobs:
           VER4BUMP=$(sed -n '/^version = / {s/^\([^\x27"]\+[\x27"]\)[0-9]\+\.\([0-9\.]\+\)[\.a-z]\([0-9]\+[\x27"]\)$/\1\2.\3/;p}' <<< "$(echo "$VERLINE")")
           echo "oldver:$VER; major:$MAJOR; ver4bump:$VER4BUMP"
           VER3BUMP=$(bump - /dev/null <<< "$(echo "$VER4BUMP")")
-          NEWVER=$(sed 's/^\([0-9\.]\+\)\.\([0-9]\+\)$/\1'$SEP'\2/' <<< "$(echo "$VER3BUMP")" )
+          NEWVER="$MAJOR.$(sed 's/^\([0-9\.]\+\)\.\([0-9]\+\)$/\1'$SEP'\2/' <<< "$(echo "$VER3BUMP")" )"
           echo "ver3bump:$VER3BUMP"
           echo "bump from '$VER' to '$NEWVER'"
-          sed -i '/^version = / { s/\([\x27"]\)[0-9a-z.]\+\([\x27"]\)/\1$NEWVER\2/ }' "${{ env.PYPROJECT }}"
+          sed -i '/^version = / { s/\([\x27"]\)[0-9a-z.]\+\([\x27"]\)/\1'$NEWVER'\2/ }' "${{ env.PYPROJECT }}"
           git diff
           grep -E '^version' "${{ env.PYPROJECT }}"
