@@ -8,11 +8,11 @@
 name: version bump, w.cron supp.
 
 on:
-  schedule:
-    # every sat. at 7:51 GMT
-    - cron: '51 7 * * 6'
-    # debug run (min,hour,dom,mon,dow)
-    - cron: '32 18 25 7 *'
+#  schedule:
+#    # every sat. at 7:51 GMT
+#    - cron: '51 7 * * 6'
+#    # debug run (min,hour,dom,mon,dow)
+#    #- cron: '32 18 25 7 *'
   workflow_dispatch:
 
 jobs:
