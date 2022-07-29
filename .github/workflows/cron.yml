@@ -10,7 +10,7 @@ name: cron wf wrapper
 on:
   schedule:
     # min hourGMT dom mon dow
-    - cron: '30 12 * * *'
+    - cron: '45 13 * * *'
     # debug run
     #- cron: '5 11 * * *'
   workflow_dispatch:
@@ -32,6 +32,6 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: 31271525
-          token: ${{ secrets.INTEGRATION_TEST }}
+          token: ${{ secrets.TH_BOT_220729 }}
           ref: ${{ matrix.branch }}
           inputs: '{ "profile": "${{ matrix.profile }}" }'
