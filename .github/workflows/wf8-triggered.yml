@@ -4,16 +4,21 @@ name: trigerred
 on:
   workflow_dispatch:
     inputs:
-      profile:
-        description: Profile name
+      project:
+        description: Project
         required: false
-        default: narodni-repozitar-test
+        default: nr-docs
+        type: choice
+        options:
+        - abc
+        - def
+        - gha
 
 jobs:
   wf-triggered:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
-      - name: test run ${{ github.event.inputs.profile }}
+      - name: test run ${{ github.event.inputs.project }}
         run: |
-          echo "${{ github.event.inputs.profile }}"
+          echo "${{ github.event.inputs.project }}"
