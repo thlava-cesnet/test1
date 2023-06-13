@@ -4,10 +4,9 @@ name: trigerred
 on:
   workflow_dispatch:
     inputs:
-      project:
-        description: Project
+      profile:
+        description: Profile
         required: false
-        default: nr-docs
         type: choice
         options:
         - abc
@@ -19,6 +18,6 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
-      - name: test run ${{ github.event.inputs.project }}
+      - name: test run ${{ github.event.inputs.profile }}
         run: |
-          echo "${{ github.event.inputs.project }}"
+          echo "${{ github.event.inputs.profile }}"
