@@ -7,9 +7,9 @@ on:
       - opened
       - reopened
       - closed
-    branches:
-      - 'staged-**'
-      - 'prod-**'
+#    branches:
+#      - 'staged-**'
+#      - 'prod-**'
 
 jobs:
   wf9_1:
