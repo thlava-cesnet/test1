@@ -16,17 +16,19 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
-      - name: test run ${{ github.event.type }}
+      - name: test run ${{ github.event.action }}
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
+          echo "sender ${{ github.event.sender.login }}"
           echo "$EVENT_CONTEXT"
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: merged ${{ github.event.type }}
+      - name: merged ${{ github.event.action }}
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
+          echo "sender ${{ github.event.sender.login }}"
           echo "The PR was merged: $EVENT_CONTEXT"
