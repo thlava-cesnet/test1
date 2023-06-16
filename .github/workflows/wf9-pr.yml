@@ -8,8 +8,9 @@ on:
       - reopened
       - closed
     branches:
-      - 'staged-*'
-      - 'prod-*'
+#      - 'staged-*'
+      - staged-02
+#      - 'prod-*'
   workflow_dispatch:
 
 jobs:
