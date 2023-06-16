@@ -27,7 +27,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: 8006262
-          token: ${{ secrets.TH_BOT_220729 }}
+          token: ${{ secrets.TH_BOT_230616 }}
           ref: "main"
           inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
