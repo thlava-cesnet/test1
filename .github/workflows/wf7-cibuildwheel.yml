@@ -1,0 +1,45 @@
+name: CIbuildwheel test
+
+on:
+# DISABLED
+#  push:
+#    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build_wheels:
+    name: Build wheel on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 1
+      matrix:
+#        os: [ubuntu-20.04, windows-2019, maxOS-10.15]
+        os: [ubuntu-20.04]
+    env:
+      INDEX: docs/index.md
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Before install
+        run: |
+          python -m pip install --upgrade pip 'setuptools<58.0.0'
+          python -m pip install wheel
+
+      - name: Install
+        run: |
+          python -m pip install --force-reinstall -e .[tests]
+
+      - name: Build sdist/bdist_wheel and reqs.txt
+        run: |
+          python setup.py sdist bdist_wheel
+          pip freeze | grep -v '^-e' > reqs.txt
+          cat reqs.txt
+
+      - name: Run pip wheel
+        run: |
+          python -m pip wheel -r reqs.txt
+          ls -l dist
