@@ -34,7 +34,7 @@ jobs:
         with:
           repo: oarepo/oarepo-deployment
           workflow: test.yml
-          token: ${{ secrets.TH_BOT_230616 }}
+          token: ${{ secrets.OAR_BOT4DEP }}
           ref: "main"
           inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
