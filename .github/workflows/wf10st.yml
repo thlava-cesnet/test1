@@ -3,10 +3,6 @@ name: pull-req 10st
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - closed
     branches:
       - staged03
   workflow_dispatch:
