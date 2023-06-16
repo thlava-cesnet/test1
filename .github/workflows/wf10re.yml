@@ -1,24 +1,18 @@
 
-name: pull-req
+name: pull-req 10re
 
 on:
-  pull_request:
+  pull_request_request:
     types:
       - opened
       - reopened
       - closed
     branches:
-      - staged03x
+      - staged03
   workflow_dispatch:
 
 jobs:
-#  call-workflow:
-#    uses: oarepo/oarepo-deployment/.github/workflows/test.yml@main
-#    with:
-#      profile: "narodni-repozitar-test"
-#    secrets:
-#      token: ${{ secrets.TH_BOT_230616 }}
-  wf9_1:
+  wf10re:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
@@ -28,14 +22,6 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "$EVENT_CONTEXT"
-      - name: Trig workflow on oa/oa-dep
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          repo: oarepo/oarepo-deployment
-          workflow: test.yml
-          token: ${{ secrets.OAR_BOT4DEP }}
-          ref: "main"
-          inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
