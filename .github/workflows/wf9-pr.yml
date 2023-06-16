@@ -7,9 +7,10 @@ on:
       - opened
       - reopened
       - closed
-#    branches:
-#      - 'staged-**'
-#      - 'prod-**'
+    branches:
+      - 'staged-*'
+      - 'prod-*'
+  workflow_dispatch:
 
 jobs:
   wf9_1:
@@ -32,3 +33,10 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "The PR was merged: $EVENT_CONTEXT"
+      - name: Trig workflow on oa/oa-dep
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: 8006262
+          token: ${{ secrets.OAR_BOT }}
+          ref: "main"
+          inputs: '{ "profile": "narodni-repozitar-test" }'
