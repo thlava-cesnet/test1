@@ -2,12 +2,12 @@
 name: pull-req
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - reopened
       - closed
-    branches: [ master ]
+    branches: [ staged03 ]
   workflow_dispatch:
 
 jobs:
