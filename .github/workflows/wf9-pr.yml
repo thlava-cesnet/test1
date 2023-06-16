@@ -7,7 +7,7 @@ on:
       - opened
       - reopened
       - closed
-    branches: [ staged03 ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
