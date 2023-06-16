@@ -23,6 +23,13 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "$EVENT_CONTEXT"
+      - name: Trig workflow on oa/oa-dep
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: 8006262
+          token: ${{ secrets.OAR_BOT }}
+          ref: "main"
+          inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
@@ -33,10 +40,3 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "The PR was merged: $EVENT_CONTEXT"
-      - name: Trig workflow on oa/oa-dep
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 8006262
-          token: ${{ secrets.OAR_BOT }}
-          ref: "main"
-          inputs: '{ "profile": "narodni-repozitar-test" }'
