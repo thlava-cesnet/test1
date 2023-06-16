@@ -23,13 +23,19 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "$EVENT_CONTEXT"
-      - name: Trig workflow on oa/oa-dep
-        uses: benc-uk/workflow-dispatch@v1
+#      - name: Trig workflow on oa/oa-dep
+#        uses: benc-uk/workflow-dispatch@v1
+#        with:
+#          workflow: 8006262
+#          token: ${{ secrets.TH_BOT_230616 }}
+#          ref: "main"
+#          inputs: '{ "profile": "narodni-repozitar-test" }'
+      - name: Call workflow on oa/oa-dep
+        uses: oarepo/oarepo-deployment/.github/workflows/test.yml@main
         with:
-          workflow: 8006262
+          profile: "narodni-repozitar-test"
+        secrets:
           token: ${{ secrets.TH_BOT_230616 }}
-          ref: "main"
-          inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
