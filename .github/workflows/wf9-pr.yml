@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "repo ${{ github.event.pull_request.base.repo.full_name }}"
-          echo "ref ${{ github.event.base.pull_request.ref }}"
+          echo "ref ${{ github.event.pull_request.base.ref }}"
 #          echo "$EVENT_CONTEXT"
   if-merged:
     if: github.event.pull_request.merged == true
