@@ -27,7 +27,9 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo "sender ${{ github.event.sender.login }}"
-          echo "$EVENT_CONTEXT"
+          echo "repo ${{ github.event.pull_request.base.repo.full_name }}"
+          echo "ref ${{ github.event.base.pull_request.ref }}"
+#          echo "$EVENT_CONTEXT"
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
@@ -37,7 +39,7 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo "sender ${{ github.event.sender.login }}"
-          echo "The PR was merged: $EVENT_CONTEXT"
+#          echo "The PR was merged: $EVENT_CONTEXT"
       - name: Trig workflow on oa/oa-dep
         uses: benc-uk/workflow-dispatch@v1
         with:
@@ -45,4 +47,4 @@ jobs:
           workflow: test.yml
           token: ${{ secrets.OAR_BOT4DEP }}
           ref: "main"
-          inputs: "{ \"profile\": \"${{ github.event.base.repo.full_name }}:${{ github.event.base.ref }}:${{ github.event.action }}\" }"
+          inputs: "{ \"profile\": \"${{ github.event.pull_request.base.repo.full_name }}:${{ github.event.pull_request.base.ref }}:${{ github.event.action }}\" }"
