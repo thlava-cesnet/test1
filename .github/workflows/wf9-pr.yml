@@ -4,8 +4,8 @@ name: pull-req
 on:
   pull_request:
     types:
-      - opened
-      - reopened
+#      - opened
+#      - reopened
       - closed
     branches:
       - staged*
@@ -28,14 +28,6 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "$EVENT_CONTEXT"
-      - name: Trig workflow on oa/oa-dep
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          repo: oarepo/oarepo-deployment
-          workflow: test.yml
-          token: ${{ secrets.OAR_BOT4DEP }}
-          ref: "main"
-          inputs: '{ "profile": "narodni-repozitar-test" }'
   if-merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
@@ -46,3 +38,11 @@ jobs:
         run: |
           echo "sender ${{ github.event.sender.login }}"
           echo "The PR was merged: $EVENT_CONTEXT"
+      - name: Trig workflow on oa/oa-dep
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          repo: oarepo/oarepo-deployment
+          workflow: test.yml
+          token: ${{ secrets.OAR_BOT4DEP }}
+          ref: "main"
+          inputs: "{ \"profile\": \"${{ github.event.base.repo.full_name }}:${{ github.event.base.ref }}:${{ github.event.action }}\" }"
