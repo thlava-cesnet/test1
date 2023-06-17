@@ -8,7 +8,7 @@ on:
       - reopened
       - closed
     branches:
-      - staged03x
+      - staged*
   workflow_dispatch:
 
 jobs:
