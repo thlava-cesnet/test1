@@ -11,7 +11,8 @@ on:
         options:
         - abc
         - def
-        - gha
+        - narodni-repozitar
+        - narodni-repozitar-test
 
 jobs:
   wf-triggered:

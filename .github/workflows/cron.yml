@@ -12,7 +12,7 @@ on:
     # min hourGMT dom mon dow
     #- cron: '14 14 * * 5'
     # debug run
-    - cron: '22 14 * * *'
+    - cron: '1 15 * * *'
   workflow_dispatch:
 
 jobs:
