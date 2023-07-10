@@ -2,8 +2,8 @@ name: matrix test
 
 on:
   push:
-    branches: [ master ]
-#    branches: [ master_DISABLED ]
+#    branches: [ master ]
+    branches: [ master_DISABLED ]
   workflow_dispatch:
 
 jobs:
