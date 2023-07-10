@@ -1,9 +1,8 @@
 name: matrix test
 
 on:
-# DISABLED
-#  push:
-#    branches: [ master ]
+  push:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -23,3 +22,9 @@ jobs:
       - name: test
         run: |
           echo "$PLATFORM .. $REGISTRY_IMAGE"
+          echo "matrix:"
+          echo ${{ matrix.platform }}
+          echo ${{ matrix.imtype }}
+          echo "env:"
+          echo ${{ env.REGISTRY_IMAGE }}
+          echo ${{ env.PLATFORM }}
