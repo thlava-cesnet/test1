@@ -1,0 +1,23 @@
+name: matrix test
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  job1:
+    name: job1 with ${{ matrix.platform }}..${{ matrix.imtype }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ linux/amd64, linux/arm64 ]
+        imtype: [ production, development]
+    env:
+      REGISTRY_IMAGE: oarepo/oarepo-base-${{ matrix.imtype }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+#      - uses: actions/checkout@v2
+      - name: test
+        run: |
+          echo "$PLATFORM .. $REGISTRY_IMAGE"
