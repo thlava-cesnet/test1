@@ -2,7 +2,8 @@ name: matrix test
 
 on:
   push:
-    branches: [ master_DISABLED ]
+    branches: [ master ]
+#    branches: [ master_DISABLED ]
   workflow_dispatch:
 
 jobs:
@@ -13,18 +14,26 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ linux/amd64, linux/arm64 ]
-        imtype: [ production, development]
+        imtype: [ production, development ]
+        include:
+          - base_image: alpine:3.17
+            imtype: production
+          - base_image: node:14-alpine3.17
+            imtype: development
     env:
       REGISTRY_IMAGE: oarepo/oarepo-base-${{ matrix.imtype }}
       PLATFORM: ${{ matrix.platform }}
+      BASE_IMAGE: ${{ matrix.base_image }}
     steps:
 #      - uses: actions/checkout@v2
       - name: test
         run: |
-          echo "$PLATFORM .. $REGISTRY_IMAGE"
+          echo "$PLATFORM .. $REGISTRY_IMAGE .. $BASE_IMAGE"
           echo "matrix:"
           echo ${{ matrix.platform }}
           echo ${{ matrix.imtype }}
+          echo ${{ matrix.base_image }}
           echo "env:"
           echo ${{ env.PLATFORM }}
           echo ${{ env.REGISTRY_IMAGE }}
+          echo ${{ env.BASE_IMAGE }}
