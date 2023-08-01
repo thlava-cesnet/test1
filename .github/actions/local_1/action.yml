@@ -17,15 +17,13 @@ outputs:
 
 runs:
   using: "composite"
-  env:
-    TXT1: ${{ inputs.txt1 }}
   steps:
-    - run: echo "Step1 ${{ inputs.txt1 }} $TXT1"
+    - run: echo "Step1 ${{ inputs.txt1 }}"
       shell: bash
     - id: step2
       run: |
         echo "Step2"
-        echo "out1=$TXT1..$(date '+%y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+        echo "out1=${{ inputs.txt1 }}..$(date '+%y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
       shell: bash
     - run: echo "Step3"
       shell: bash
