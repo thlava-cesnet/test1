@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2023 CESNET.
+#
+
+name: local GHa 1
+description: Description for local GHa 1
+inputs:
+  txt1:
+    description: txt1 field
+    required: false
+    default: abc
+outputs:
+  out1:
+    description: out1 field
+    value: ${{ steps.step2.outputs.out1 }}
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Step1, txt1: ${{ inputs.txt1 }}"
+      shell: bash
+    - id: step2
+      run: |
+        echo "Step2"
+        echo "out1=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
+    - run: echo "Step3"
+      shell: bash
