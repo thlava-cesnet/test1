@@ -8,11 +8,11 @@
 name: cron wf wrapper
 
 on:
-  schedule:
+#  schedule:
     # min hourGMT dom mon dow
     #- cron: '14 14 * * 5'
     # debug run
-    - cron: '1 15 * * *'
+#    - cron: '1 15 * * *'
   workflow_dispatch:
 
 jobs:
