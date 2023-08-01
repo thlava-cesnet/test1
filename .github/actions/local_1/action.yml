@@ -18,7 +18,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo "Step1, txt1: ${{ inputs.txt1 }}"
+    - run: echo Step1, txt1: ${{ inputs.txt1 }}
       shell: bash
     - id: step2
       run: |
