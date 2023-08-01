@@ -7,6 +7,11 @@ name: local GHa test 1
 
 on:
   workflow_dispatch:
+    inputs:
+      txt1:
+        description: txt1 field
+        required: false
+        default: abc
 
 jobs:
   job1:
@@ -17,10 +22,10 @@ jobs:
         id: call_local_1
         uses: ./.github/actions/local_1
         with:
-          txt1: def
+          txt1: ${{ inputs.txt1 }}
       - name: Print output
         run: |
           echo "Output: ${{ steps.call_local_1.outputs.out1 }}"
-      - name: DOne
+      - name: Done
         run: |
           echo "Done."
