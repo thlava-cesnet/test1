@@ -20,6 +20,7 @@ jobs:
         uses: ankane/setup-opensearch@v1
         with:
           opensearch-version: ${{ matrix.opensearch-version }}
-      - name: test opensearch on port 9600
+      - name: test opensearch on port 4900
         run: |
-          curl http://localhost:9600/
+          netstat -ntlp
+          curl http://localhost:4900/
