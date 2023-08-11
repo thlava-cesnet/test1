@@ -9,35 +9,50 @@ on:
   workflow_dispatch:
 
 jobs:
-  opensearch:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        opensearch-version: [ 2 ]
-    env:
-      OPENSEARCH_PORT: 9200
-    steps:
-      - name: opensearch ${{ matrix.opensearch-version }}
-        uses: ankane/setup-opensearch@v1
-        with:
-          opensearch-version: ${{ matrix.opensearch-version }}
-      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
-        run: |
-          netstat -ntlp
-          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}/
+#  opensearch:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 1
+#      matrix:
+#        opensearch-version: [ 2 ]
+#    env:
+#      OPENSEARCH_PORT: 9200
+#    steps:
+#      - name: opensearch ${{ matrix.opensearch-version }}
+#        uses: ankane/setup-opensearch@v1
+#        with:
+#          opensearch-version: ${{ matrix.opensearch-version }}
+#      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
+#        run: |
+#          netstat -ntlp
+#          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}/
+#
+#  redis:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 3
+#      matrix:
+#        redis-version: [ '5', '6', '6.2' ]
+#    steps:
+#      - name: redis ${{ matrix.redis-version }}
+#        uses: shogo82148/actions-setup-redis@v1
+#        with:
+#          redis-version: ${{ matrix.redis-version }}
+#      - name: redis-cli ping
+#        run: |
+#          redis-cli ping
 
-  redis:
+  postgres:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
+      max-parallel: 3
       matrix:
-        redis-version: [ '5', '6', '6.2' ]
+        postgres-version: [ 13, 14, 15 ]
     steps:
-      - name: redis ${{ matrix.redis-version }}
-        uses: shogo82148/actions-setup-redis@v1
+      - name: postgres ${{ matrix.postgres-version }}
+        uses: ankane/setup-postgres@v1
         with:
-          redis-version: ${{ matrix.redis-version }}
-      - name: redis-cli ping
+          postgres-version: ${{ matrix.postgres-version }}
+      - name: test postgres version ${{ matrix.postgres-version }}
         run: |
-          redis-cli ping
+          psql -d testdb -c 'SHOW server_version'
