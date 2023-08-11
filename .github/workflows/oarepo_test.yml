@@ -50,7 +50,7 @@ jobs:
           ref: 'maint-11.x'
 #          token: '${{ secrets.INTEGRATION_TEST }}'
           path: 'app-rdm'
-      - name: test
+      - name: app-rdm test
         run: |
           cd app-rdm
           pwd
@@ -60,5 +60,31 @@ jobs:
           pip install -U setuptools pip wheel
           python setup.py bdist_wheel
           ls -l
+          /bin/echo -e "\ninvenio-rdm-records:"
           grep invenio-rdm-records invenio_app_rdm.egg-info/requires.txt
+          /bin/echo -e "\nrequires:"
           grep -v invenio-rdm-records invenio_app_rdm.egg-info/requires.txt
+      - name: Checkout oarepo/oarepo under ./oarepo
+        uses: actions/checkout@v3
+        with:
+          repository: 'oarepo/oarepo'
+          ref: 'rdm-11'
+#          token: '${{ secrets.INTEGRATION_TEST }}'
+          path: 'oarepo'
+      - name: oarepo test
+        run: |
+          cd oarepo
+          pwd
+          ls -l
+          python3 -m venv .venv
+          . .venv/bin/activate
+          pip install -U setuptools pip wheel bump
+          grep '__version__' oarepo/version.py
+          echo "=== BUMP: ==="
+          bump oarepo/version.py oarepo/version.py
+          grep '__version__' oarepo/version.py
+          echo "=== original setup.py: ==="
+          cat setup.py
+          echo "=== diff ==="
+          diff setup.py ../app-rdm/invenio_app_rdm.egg-info/requires.txt
+#          pip install .
