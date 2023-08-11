@@ -36,7 +36,7 @@ jobs:
       - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
         run: |
           netstat -ntlp
-          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}/
+          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}
       - name: test redis: redis-cli ping
         run: |
           redis-cli ping
