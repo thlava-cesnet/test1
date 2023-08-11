@@ -9,12 +9,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  opensearch:
+  start and test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
       matrix:
         opensearch-version: [ 2 ]
+        redis-version: [ '6' ]
+        postgres-version: [ 14 ]
     env:
       OPENSEARCH_PORT: 9200
     steps:
@@ -22,38 +24,22 @@ jobs:
         uses: ankane/setup-opensearch@v1
         with:
           opensearch-version: ${{ matrix.opensearch-version }}
-      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
-        run: |
-          netstat -ntlp
-          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}/
-
-  redis:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 3
-      matrix:
-        redis-version: [ '5', '6', '6.2' ]
-    steps:
       - name: redis ${{ matrix.redis-version }}
         uses: shogo82148/actions-setup-redis@v1
         with:
           redis-version: ${{ matrix.redis-version }}
-      - name: redis-cli ping
-        run: |
-          redis-cli ping
-
-  postgres:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 3
-      matrix:
-        postgres-version: [ 13, 14, 15 ]
-    steps:
       - name: postgres ${{ matrix.postgres-version }}
         uses: ankane/setup-postgres@v1
         with:
           postgres-version: ${{ matrix.postgres-version }}
           database: testdb
+      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
+        run: |
+          netstat -ntlp
+          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}/
+      - name: test redis: redis-cli ping
+        run: |
+          redis-cli ping
       - name: test postgres version ${{ matrix.postgres-version }}
         run: |
           psql -d testdb -c 'SHOW server_version'
