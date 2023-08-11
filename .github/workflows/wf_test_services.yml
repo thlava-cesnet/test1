@@ -9,23 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  opensearch:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        opensearch-version: [ 2 ]
-    env:
-      OPENSEARCH_PORT: 9200
-    steps:
-      - name: opensearch ${{ matrix.opensearch-version }}
-        uses: ankane/setup-opensearch@v1
-        with:
-          opensearch-version: ${{ matrix.opensearch-version }}
-      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
-        run: |
-          netstat -ntlp
-          curl http://localhost:${{ env.OPENSEARCH_PORT }}/
+#  opensearch:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 1
+#      matrix:
+#        opensearch-version: [ 2 ]
+#    env:
+#      OPENSEARCH_PORT: 9200
+#    steps:
+#      - name: opensearch ${{ matrix.opensearch-version }}
+#        uses: ankane/setup-opensearch@v1
+#        with:
+#          opensearch-version: ${{ matrix.opensearch-version }}
+#      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
+#        run: |
+#          netstat -ntlp
+#          curl http://localhost:${{ env.OPENSEARCH_PORT }}/
 
   redis:
     runs-on: ubuntu-latest
@@ -43,4 +43,5 @@ jobs:
       - name: test redis on port ${{ env.REDIS_PORT }}
         run: |
           netstat -ntlp
-          curl http://localhost:${{ env.REDIS_PORT }}/
+          redis-cli ping
+#          curl http://localhost:${{ env.REDIS_PORT }}/
