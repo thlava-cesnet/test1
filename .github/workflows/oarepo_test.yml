@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2023 CESNET.
+#
+
+name: oarepo test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  start_and_test:
+    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 1
+#      matrix:
+#        opensearch-version: [ 2 ]
+#        redis-version: [ '6' ]
+#        postgres-version: [ 14 ]
+    env:
+      OPENSEARCH_PORT: 9200
+    steps:
+#      - name: opensearch ${{ matrix.opensearch-version }}
+#        uses: ankane/setup-opensearch@v1
+#        with:
+#          opensearch-version: ${{ matrix.opensearch-version }}
+#      - name: redis ${{ matrix.redis-version }}
+#        uses: shogo82148/actions-setup-redis@v1
+#        with:
+#          redis-version: ${{ matrix.redis-version }}
+#      - name: postgres ${{ matrix.postgres-version }}
+#        uses: ankane/setup-postgres@v1
+#        with:
+#          postgres-version: ${{ matrix.postgres-version }}
+#          database: testdb
+#      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
+#        run: |
+#          netstat -ntlp
+#          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}
+#      - name: "test redis: redis-cli ping"
+#        run: |
+#          redis-cli ping
+#      - name: test postgres version ${{ matrix.postgres-version }}
+#        run: |
+#          psql -d testdb -c 'SHOW server_version'
+      - name: Checkout inveniosoftware/invenio-app-rdm under ./app-rdm
+        uses: actions/checkout@v2
+        with:
+          repository: 'inveniosoftware/invenio-app-rdm'
+          ref: 'maint-11.x'
+#          token: '${{ secrets.INTEGRATION_TEST }}'
+          path: 'app-rdm'
+      - name: test
+        run: |
+          pwd
+          ls -la
+          ls -la app-rdm
