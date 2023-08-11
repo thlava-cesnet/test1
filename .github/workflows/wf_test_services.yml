@@ -17,10 +17,10 @@ jobs:
       matrix:
         opensearch-version: [ 2 ]
     steps:
-      - name: opensearch: ${{ matrix.opensearch-version }}
+      - name: opensearch ${{ matrix.opensearch-version }}
         uses: ankane/setup-opensearch@v1
         with:
-          opensearch-version: ${{ ankane/setup-opensearch }}
+          opensearch-version: ${{ matrix.opensearch-version }}
       - name: test opensearch on port 9600
         run: |
           curl http://localhost:9600/
