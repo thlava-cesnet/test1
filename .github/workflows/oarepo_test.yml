@@ -19,30 +19,36 @@ jobs:
 #        postgres-version: [ 14 ]
     env:
       OPENSEARCH_PORT: 9200
+#      OPENSEARCH_VERSION: ${{ matrix.opensearch-version }}
+#      REDIS-VERSION: ${{ matrix.redis-version }}
+#      POSTGRES-VERSION: ${{ matrix.postgres-version }}
+      OPENSEARCH_VERSION: 2
+      REDIS-VERSION: 6
+      POSTGRES-VERSION: 14
     steps:
-#      - name: opensearch ${{ matrix.opensearch-version }}
-#        uses: ankane/setup-opensearch@v1
-#        with:
-#          opensearch-version: ${{ matrix.opensearch-version }}
-#      - name: redis ${{ matrix.redis-version }}
-#        uses: shogo82148/actions-setup-redis@v1
-#        with:
-#          redis-version: ${{ matrix.redis-version }}
-#      - name: postgres ${{ matrix.postgres-version }}
-#        uses: ankane/setup-postgres@v1
-#        with:
-#          postgres-version: ${{ matrix.postgres-version }}
-#          database: testdb
-#      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
-#        run: |
-#          netstat -ntlp
-#          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}
-#      - name: "test redis: redis-cli ping"
-#        run: |
-#          redis-cli ping
-#      - name: test postgres version ${{ matrix.postgres-version }}
-#        run: |
-#          psql -d testdb -c 'SHOW server_version'
+      - name: opensearch ${{ env.OPENSEARCH_VERSION }}
+        uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: ${{ env.OPENSEARCH_VERSION }}
+      - name: redis ${{ env.REDIS-VERSION }}
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: ${{ env.REDIS-VERSION }}
+      - name: postgres ${{ env.POSTGRES-VERSION }}
+        uses: ankane/setup-postgres@v1
+        with:
+          postgres-version: ${{ env.POSTGRES-VERSION }}
+          database: testdb
+      - name: test opensearch on port ${{ env.OPENSEARCH_PORT }}
+        run: |
+          netstat -ntlp
+          curl -s http://localhost:${{ env.OPENSEARCH_PORT }}
+      - name: "test redis: redis-cli ping"
+        run: |
+          redis-cli ping
+      - name: test postgres version ${{ env.POSTGRES-VERSION }}
+        run: |
+          psql -d testdb -c 'SHOW server_version'
       - name: Checkout inveniosoftware/invenio-app-rdm under ./app-rdm
         uses: actions/checkout@v3
         with:
@@ -85,6 +91,6 @@ jobs:
           grep '__version__' oarepo/version.py
           echo "=== original setup.py: ==="
           cat setup.py
-          echo "=== diff ==="
-          diff setup.py ../app-rdm/invenio_app_rdm.egg-info/requires.txt
+#          echo "=== diff ==="
+#          diff setup.py ../app-rdm/invenio_app_rdm.egg-info/requires.txt
 #          pip install .
