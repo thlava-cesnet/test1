@@ -37,7 +37,7 @@ jobs:
         run: |
           netstat -ntlp
           curl -s http://localhost:${{ env.OPENSEARCH_PORT }}
-      - name: test redis: redis-cli ping
+      - name: "test redis: redis-cli ping"
         run: |
           redis-cli ping
       - name: test postgres version ${{ matrix.postgres-version }}
