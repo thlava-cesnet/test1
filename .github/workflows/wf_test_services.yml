@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2023 CESNET.
+#
+
+name: services test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  opensearch:
+    runs-on: ubuntu-latest
+    steps:
+    strategy:
+      max-parallel: 1
+      matrix:
+        opensearch-version: [ 2 ]
+    steps:
+      - name: opensearch: ${{ matrix.opensearch-version }}
+        uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: ${{ ankane/setup-opensearch }}
+      - name: test opensearch on port 9600
+        run: |
+          curl http://localhost:9600/
