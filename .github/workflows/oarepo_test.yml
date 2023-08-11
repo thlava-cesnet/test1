@@ -44,7 +44,7 @@ jobs:
 #        run: |
 #          psql -d testdb -c 'SHOW server_version'
       - name: Checkout inveniosoftware/invenio-app-rdm under ./app-rdm
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'inveniosoftware/invenio-app-rdm'
           ref: 'maint-11.x'
@@ -52,8 +52,9 @@ jobs:
           path: 'app-rdm'
       - name: test
         run: |
+          cd app-rdm
           pwd
-          ls -la app-rdm
+          ls -la
           python3 -m venv .venv
           . .venv/bin/activate
           pip install -U setuptools pip wheel
