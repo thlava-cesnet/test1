@@ -53,6 +53,7 @@ jobs:
         uses: ankane/setup-postgres@v1
         with:
           postgres-version: ${{ matrix.postgres-version }}
+          database: testdb
       - name: test postgres version ${{ matrix.postgres-version }}
         run: |
           psql -d testdb -c 'SHOW server_version'
