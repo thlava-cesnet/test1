@@ -59,5 +59,6 @@ jobs:
           . .venv/bin/activate
           pip install -U setuptools pip wheel
           python setup.py bdist_wheel
-          grep invenio-rdm-records app_rdm.egg-info/requires.txt
-          grep -v invenio-rdm-records app_rdm.egg-info/requires.txt
+          ls -l
+          grep invenio-rdm-records invenio_app_rdm.egg-info/requires.txt
+          grep -v invenio-rdm-records invenio_app_rdm.egg-info/requires.txt
