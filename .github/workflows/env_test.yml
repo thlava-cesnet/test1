@@ -24,5 +24,7 @@ jobs:
           echo "VAR1: $VAR1"
           echo "VAR2: $VAR2"
           echo "VAR3: $VAR3"
-          echo "\${{ env.VAR1 }}: ${{ env.VAR1 }}"
+          echo "\\${{ env.VAR1 }}: ${{ env.VAR1 }}"
           echo "GITHUB_PATH: $GITHUB_PATH"
+          echo "pwd: $(pwd)"
+
