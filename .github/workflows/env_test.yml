@@ -1,0 +1,27 @@
+
+name: env test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  start_and_test:
+    runs-on: ubuntu-latest
+#    strategy:
+#      max-parallel: 1
+#      matrix:
+#        opensearch-version: [ 2 ]
+#        redis-version: [ '6' ]
+#        postgres-version: [ 14 ]
+    env:
+#      OPENSEARCH_VERSION: ${{ matrix.opensearch-version }}
+      VAR1: val1
+      VAR2: val2
+      VAR3: ${{ env.VAR1 }}
+    steps:
+      - name: oarepo test
+        run: |
+          echo "VAR1: $VAR1"
+          echo "VAR2: $VAR2"
+          echo "VAR3: $VAR3"
+          echo "\${{ env.VAR1 }}: ${{ env.VAR1 }}"
