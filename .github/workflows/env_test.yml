@@ -17,7 +17,7 @@ jobs:
 #      OPENSEARCH_VERSION: ${{ matrix.opensearch-version }}
       VAR1: val1
       VAR2: val2
-      VAR3: ${{ env.VAR1 }}
+      VAR3: ${{ vars.VAR1 }}
     steps:
       - name: oarepo test
         run: |
@@ -25,3 +25,4 @@ jobs:
           echo "VAR2: $VAR2"
           echo "VAR3: $VAR3"
           echo "\${{ env.VAR1 }}: ${{ env.VAR1 }}"
+          echo "GITHUB_PATH: $GITHUB_PATH"
