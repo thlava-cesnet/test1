@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2023 CESNET.
+#
+
+name: local GHa test 1
+
+on:
+  workflow_dispatch:
+    inputs:
+      txt1:
+        description: txt1 field
+        required: false
+        default: abc
+
+jobs:
+  job-local:
+    runs-on: ubuntu-latest
+    run-name: job-local with {{ inputs.txt1 }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run local GHa
+        id: call_local_1
+        uses: ./.github/actions/local_1
+        with:
+          txt1: ${{ inputs.txt1 }}
+      - name: Print output
+        run: |
+          echo "Output: ${{ steps.call_local_1.outputs.out1 }}"
+      - name: Done
+        run: |
+          echo "Done."
+  job-remote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run remote composite GHa
+        id: call_remote_1
+        uses: thlava-cesnet/actions-test@v10
+        with:
+          input1: ${{ inputs.txt1 }}
+      - name: Print output
+        run: |
+          echo "Output: ${{ steps.call_remote_1.outputs.output1 }}"
+      - name: Done
+        run: |
+          echo "Done."
