@@ -16,7 +16,7 @@ on:
 jobs:
   job-local:
     runs-on: ubuntu-latest
-    run-name: job-local with {{ inputs.txt1 }}
+    run-name: job-local with ${{ inputs.txt1 }}
     steps:
       - uses: actions/checkout@v3
       - name: Run local GHa
