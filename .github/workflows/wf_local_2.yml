@@ -3,7 +3,7 @@
 # Copyright (C) 2023 CESNET.
 #
 
-name: local GHa test 1
+name: local GHa test 2
 
 on:
   workflow_dispatch:
