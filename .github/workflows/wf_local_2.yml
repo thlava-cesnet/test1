@@ -11,7 +11,7 @@ on:
     # min hourGMT dom mon dow
     #- cron: '14 14 * * 5'
     # debug run
-    - cron: '38 9 * * *'
+    - cron: '50 9 * * *'
   workflow_dispatch:
     inputs:
       txt1:
@@ -37,8 +37,13 @@ jobs:
           /bin/false
       - name: Err handler
         if: failure()
-        run: |
-          echo "Err handler $(date '+%y%m%d-%H%M%S')"
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: mail.cesnet.cz
+          subject: ${{ github.job }} (${{ github.repository }}) failed
+          to: hlava@cesnet.cz
+          from: oarepo@cesnet.cz
+          body: ${{ github.job }} in ${{ github.workflow}} of ${{ github.repository }} failed with status ${{ job.status }}
       - name: Done
         run: |
           echo "Done."
