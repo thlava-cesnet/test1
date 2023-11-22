@@ -7,6 +7,11 @@ name: local GHa test 2
 run-name: local GHa test 2 with ${{ inputs.txt1 }} by ${{ github.actor }}
 
 on:
+  schedule:
+    # min hourGMT dom mon dow
+    #- cron: '14 14 * * 5'
+    # debug run
+    - cron: '38 9 * * *'
   workflow_dispatch:
     inputs:
       txt1:
@@ -27,6 +32,13 @@ jobs:
       - name: Print output
         run: |
           echo "Output: ${{ steps.call_local_1.outputs.out1 }}"
+      - name: mkerr
+        run: |
+          /bin/false
+      - name: Err handler
+        if: failure()
+        run: |
+          echo "Err handler $(date '+%y%m%d-%H%M%S')"
       - name: Done
         run: |
           echo "Done."
