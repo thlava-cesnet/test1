@@ -7,11 +7,11 @@ name: local GHa test 2
 run-name: local GHa test 2 with ${{ inputs.txt1 }} by ${{ github.actor }}
 
 on:
-  schedule:
+#  schedule:
     # min hourGMT dom mon dow
     #- cron: '14 14 * * 5'
     # debug run
-    - cron: '50 9 * * *'
+#    - cron: '50 9 * * *'
   workflow_dispatch:
     inputs:
       txt1:
@@ -39,7 +39,7 @@ jobs:
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: mail.cesnet.cz
+          connection_url: smtp+starttls://mail.cesnet.cz
           subject: ${{ github.job }} (${{ github.repository }}) failed
           to: hlava@cesnet.cz
           from: oarepo@cesnet.cz
