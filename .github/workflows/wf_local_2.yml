@@ -39,10 +39,10 @@ jobs:
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: mail.cesnet.cz
+          server_address: postino.cesnet.cz
           subject: ${{ github.job }} (${{ github.repository }}) failed
-          to: du-devops-alerts@cesnet.cz
           from: du-alerts@cesnet.cz
+          to: ${{ secrets.EMAIL_TO }}
           body: ${{ github.job }} in ${{ github.workflow}} of ${{ github.repository }} failed with status ${{ job.status }}
       - name: Done
         run: |
