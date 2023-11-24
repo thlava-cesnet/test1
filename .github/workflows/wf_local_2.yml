@@ -39,7 +39,7 @@ jobs:
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
-          connection_url: smtp+starttls://mail.cesnet.cz
+          server_address: mail.cesnet.cz
           subject: ${{ github.job }} (${{ github.repository }}) failed
           to: du-devops-alerts@cesnet.cz
           from: du-alerts@cesnet.cz
