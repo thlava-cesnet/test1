@@ -41,8 +41,8 @@ jobs:
         with:
           connection_url: smtp+starttls://mail.cesnet.cz
           subject: ${{ github.job }} (${{ github.repository }}) failed
-          to: hlava@cesnet.cz
-          from: oarepo@cesnet.cz
+          to: du-devops-alerts@cesnet.cz
+          from: du-alerts@cesnet.cz
           body: ${{ github.job }} in ${{ github.workflow}} of ${{ github.repository }} failed with status ${{ job.status }}
       - name: Done
         run: |
