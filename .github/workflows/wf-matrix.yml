@@ -1,0 +1,50 @@
+
+name: Matrix test
+
+on:
+  workflow_call:
+    inputs:
+      oarepo:
+        description: OARepo version (11, 12, ...)
+        required: true
+        default: 11
+        type: string
+  workflow_dispatch:
+    inputs:
+      oarepo:
+        description: OARepo version (11, 12, ...)
+        required: true
+        default: 11
+
+jobs:
+  ver-check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        oarepo-library:
+          - oarepo/oarepo-runtime
+          - oarepo/oarepo-vocabularies
+          - oarepo/oarepo-upload-cli
+          - oarepo/oarepo-model-builder
+          - oarepo/oarepo-model-builder-files
+          - oarepo/oarepo-model-builder-vocabularies
+          - oarepo/oarepo-model-builder-relations
+          - oarepo/oarepo-model-builder-multilingual
+          - oarepo/oarepo-model-builder-tests
+          - oarepo/oarepo-model-builder-cf
+          - oarepo/oarepo-model-builder-requests
+          - oarepo/oarepo-model-builder-polymorphic
+          - oarepo/oarepo-model-builder-ui
+          - Narodni-repozitar/nr-model
+          - oarepo/oarepo-model-builder-drafts
+          - oarepo/oarepo-model-builder-drafts-files
+          - oarepo/oarepo-model-builder-communities
+          - Molecular-Biophysics-Database/mbdb-app
+        python-version: [ "3.10" ]
+    env:
+      OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
+      TOK: ${{ secrets.OAREPO_BOT }}
+    steps:
+      - name: Print output
+        run: |
+          echo "Output: ${{ matrix.oarepo-library }}"
