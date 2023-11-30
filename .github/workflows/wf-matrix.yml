@@ -17,15 +17,26 @@ on:
         default: 11
 
 jobs:
-  ver-check:
+  get-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: set matrix
+        id: set-matrix
+        run: echo 'matrix={"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}' >> $GITHUB_OUTPUT
+
+  print:
+    runs-on: ubuntu-latest
+    needs: get-matrix
+    strategy:
+      matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
     env:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
       TOK: ${{ secrets.OAREPO_BOT }}
-      MATRIX: '{"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}'
-    strategy:
-      matrix: ${{ fromJson($MATRIX) }}
     steps:
       - name: Print output
         run: |
-          echo "Output: ${{ matrix.oarepo-library }}"
+          echo "Output: ${{ matrix.oarepo-library }}; python; ${{ matrix.python-version }}"
