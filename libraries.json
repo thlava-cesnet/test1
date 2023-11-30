@@ -1,0 +1,14 @@
+[
+  {
+    "library": "oarepo/oarepo-runtime",
+    "python-version": "3.10"
+  },
+  {
+    "library": "oarepo/oarepo-upload-cli",
+    "python-version": "3.10"
+  },
+  {
+    "library": "Narodni-repozitar/nr-model",
+    "python-version": "3.10"
+  }
+]

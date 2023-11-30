@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v3
       - name: set matrix
         id: set-matrix
-        run: echo 'matrix=[{"library":"oarepo/oarepo-runtime"},{"library":"oarepo/oarepo-upload-cli"},{"library":"Narodni-repozitar/nr-model"}]' >> $GITHUB_OUTPUT
+        run: echo "matrix=$(jq -c . < ./libraries.json)" >> $GITHUB_OUTPUT
       - name: debug
         run: jq '.' <<<'${{ steps.set-matrix.outputs.matrix }}'
 
