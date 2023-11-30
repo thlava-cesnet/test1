@@ -1,11 +1,5 @@
 [
-  {
-    "library": "oarepo/oarepo-runtime"
-  },
-  {
-    "library": "oarepo/oarepo-upload-cli"
-  },
-  {
-    "library": "Narodni-repozitar/nr-model"
-  }
+"oarepo/oarepo-runtime",
+"oarepo/oarepo-upload-cli",
+"Narodni-repozitar/nr-model"
 ]
