@@ -1,5 +1,5 @@
 
-name: Matrix test
+name: Matrix test 2
 
 on:
   workflow_call:
