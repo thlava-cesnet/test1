@@ -24,7 +24,7 @@ jobs:
       TOK: ${{ secrets.OAREPO_BOT }}
       MATRIX: '{"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}'
     strategy:
-      matrix: ${{ fromJson(env.MATRIX) }}
+      matrix: ${{ fromJson($MATRIX) }}
     steps:
       - name: Print output
         run: |
