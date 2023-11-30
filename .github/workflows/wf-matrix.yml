@@ -22,7 +22,7 @@ jobs:
     env:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
       TOK: ${{ secrets.OAREPO_BOT }}
-      MATRIX: {"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}
+      MATRIX: '{"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}'
     strategy:
       matrix: ${{ fromJson(env.MATRIX) }}
     steps:
