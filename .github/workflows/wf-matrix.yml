@@ -19,20 +19,12 @@ on:
 jobs:
   ver-check:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        oarepo-library:
-          - oarepo/oarepo-runtime
-          - oarepo/oarepo-vocabularies
-          - oarepo/oarepo-upload-cli
-          - oarepo/oarepo-model-builder
-          - Narodni-repozitar/nr-model
-          - oarepo/oarepo-model-builder-drafts
-          - Molecular-Biophysics-Database/mbdb-app
-        python-version: [ "3.10" ]
     env:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
       TOK: ${{ secrets.OAREPO_BOT }}
+      MATRIX: {"oarepo-library:":[{"name":"oarepo/oarepo-runtime"},{"name":"oarepo/oarepo-upload-cli"},{"name":"Narodni-repozitar/nr-model"},],"python-version:":[{"name":"3.10"}]}
+    strategy:
+      matrix: ${{ fromJson(env.MATRIX) }}
     steps:
       - name: Print output
         run: |
