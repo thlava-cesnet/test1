@@ -17,5 +17,5 @@ function mm_msg(){
   local url="${MM_OAREPO_WH:?Error, MM_OAREPO_WH undefined}"
   local opts='-H "Content-Type: application/json"'
   local data="{\"text\":\"$msg\"${channel:+, \"channel\":\"$channel\"}}"
-  curl -i -X POST -H "Content-Type: application/json" -d "$data" "$url"
+  curl -s -X POST -H "Content-Type: application/json" -d "$data" "$url"
 }
