@@ -22,6 +22,8 @@ on:
 jobs:
   job-local:
     runs-on: ubuntu-latest
+    env:
+      MM_OAREPO_WH: ${{ secrets.MM_OAREPO_WH }}
     steps:
       - uses: actions/checkout@v3
       - name: Run local GHa
@@ -37,13 +39,16 @@ jobs:
           /bin/false
       - name: Err handler
         if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: postino.cesnet.cz
-          subject: ${{ github.job }} (${{ github.repository }}) failed
-          from: du-alerts@cesnet.cz
-          to: ${{ secrets.EMAIL_TO }}
-          body: ${{ github.job }} in ${{ github.workflow}} of ${{ github.repository }} failed with status ${{ job.status }}
+        run: |
+          . ./scripts/functions.sh
+          mm_msg "test $(date '+%y%m%d-%H%M%S')" ${{ secrets.MM_CHANNEL }}
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: postino.cesnet.cz
+#          subject: ${{ github.job }} (${{ github.repository }}) failed
+#          from: du-alerts@cesnet.cz
+#          to: ${{ secrets.EMAIL_TO }}
+#          body: ${{ github.job }} in ${{ github.workflow}} of ${{ github.repository }} failed with status ${{ job.status }}
       - name: Done
         run: |
           echo "Done."
