@@ -1,12 +1,24 @@
 #!/bin/bash
 
 function api_call(){
-  local url="$1"
-  shift
-  local method="${1:-GET}"
-  shift
+  local url="${1:?"api_call: undefined url"}" ; shift
+  local method="${1:-GET}" ; shift
   local data="{${BR:+ \"ref\":\"$BR\"}}"
   curl -s -X$method -H "Accept: application/vnd.github.v3+json" ${TOK:+ -H "authorization: Bearer $TOK"} -d "$data" "$url" $@
+}
+
+function api_get_trigrun(){
+  local url=${1:?"api_call: undefined url"} ; shift
+  local event=${1:-"workflow_dispatch"} ; shift
+  api_get "$url" | jq -r '
+    [
+      .workflow_runs[]
+      | select(.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'")
+    ]
+    | sort_by(.run_started_at) | reverse [0]
+    | [.run_started_at,.conclusion]
+    |@tsv
+  '
 }
 
 function mm_msg(){
