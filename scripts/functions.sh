@@ -11,7 +11,7 @@ function api_get_trigrun(){
   local url=${1:?api_call: url undefined} ; shift
   local event=${1:-workflow_dispatch} ; shift
   echo "api_get_trigrun($url, $event, BR=$BR, BOT=$BOT)"
-  api_call "$url" "GET" | jq -r '
+  api_call "$url/actions/runs" "GET" | jq -r '
     [
       .workflow_runs[]
       | select(.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'")
@@ -20,7 +20,6 @@ function api_get_trigrun(){
     | [.run_started_at,.conclusion]
     |@tsv
   '
-  echo $?
 }
 
 function mm_msg(){
