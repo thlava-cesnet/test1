@@ -93,11 +93,14 @@ jobs:
 
   process-outputs:
     runs-on: ubuntu-latest
-    needs: [ load-matrix-job, process-matrix-job ]
-    env:
-      OAR_LIBS: ${{ fromJson(needs.load-matrix-job.outputs.matrix) }}
+    needs: process-matrix-job
     steps:
       - name: debug
+        run: |
+          OAR_LIBS=$(jq -c '.[]' < ./libraries.json)
+          echo ">$OAR_LIBS<"
+          echo "OAR_LIBS=$OAR_LIBS" >> $GITHUB_ENV
+      - name: debug2
         run: |
           echo ">$OAR_LIBS<"
 #      - name: Download artifact
