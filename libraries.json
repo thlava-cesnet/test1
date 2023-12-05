@@ -1,5 +1,5 @@
 [
-"oarepo/oarepo-runtime",
-"oarepo/oarepo-upload-cli",
-"Narodni-repozitar/nr-model"
+"oarepo/oarepo-vocabularies",
+"oarepo/oarepo-model-builder-files",
+"oarepo/oarepo-runtime"
 ]
