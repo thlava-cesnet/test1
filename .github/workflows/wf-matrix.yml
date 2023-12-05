@@ -66,5 +66,7 @@ jobs:
           REPO="${{ matrix.library }}"
           BASE_URL="https://api.github.com/repos/$REPO"
           . ./scripts/functions.sh
+          type api_get_trigrun
+          echo "BR=$BR, BOT=$BOT"
           echo "api_get_trigrun (for $REPO):"
           api_get_trigrun "$BASE_URL"
