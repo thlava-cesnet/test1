@@ -9,7 +9,8 @@ function api_call(){
 
 function api_get_trigrun(){
   local url=${1:?api_call: url undefined} ; shift
-  local event=${1:-"workflow_dispatch"} ; shift
+  local event=${1:-workflow_dispatch} ; shift
+  echo "api_get_trigrun($url, $event, BR=$BR, BOT=$BOT)"
   api_call "$url" "GET" | jq -r '
     [
       .workflow_runs[]
@@ -19,6 +20,7 @@ function api_get_trigrun(){
     | [.run_started_at,.conclusion]
     |@tsv
   '
+  echo $?
 }
 
 function mm_msg(){
