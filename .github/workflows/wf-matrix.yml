@@ -56,9 +56,8 @@ jobs:
           REPO="${{ matrix.library }}"
           BASE_URL="https://api.github.com/repos/$REPO"
           . ./scripts/functions.sh
-          BASE_URL2="https://github.com/$REPO"
-          echo -e "\n$REPO\n($BASE_URL2)\nget default branch:"
-          BR=$(curl -s -XGET -H "Accept: application/json" "$BASE_URL2" | jq -r '.payload.repo.defaultBranch')
+          echo -e "\n$REPO\n($BASE_URL)\nget default branch:"
+          BR=$(api_call "$BASE_URL" | jq -r '.default_branch')
           echo " ... branch $BR"
           echo "BR=$BR" >> $GITHUB_ENV
       - name: get trigrun for ${{ matrix.library }}
