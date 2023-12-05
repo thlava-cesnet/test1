@@ -101,7 +101,7 @@ jobs:
         run: |
           OAR_LIBS=$(jq -c '.[]' < ./libraries.json)
           echo ">$OAR_LIBS<"
-          echo "OAR_LIBS=$OAR_LIBS" >> $GITHUB_ENV
+          echo -e "OAR_LIBS<<EOF\n$OAR_LIBS\nEOF" >> $GITHUB_ENV
       - name: debug2
         run: |
           echo ">$OAR_LIBS<"
