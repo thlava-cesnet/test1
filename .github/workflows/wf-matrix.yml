@@ -1,4 +1,3 @@
-
 name: Matrix test 2
 
 on:
@@ -17,31 +16,53 @@ on:
         default: 11
 
 jobs:
-  get-matrix:
+  load-matrix-job:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ steps.load-matrix.outputs.matrix }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
       - name: set matrix
-        id: set-matrix
+        id: load-matrix
         run: echo "matrix=$(jq -c . < ./libraries.json)" >> $GITHUB_OUTPUT
       - name: debug
-        run: jq '.' <<<'${{ steps.set-matrix.outputs.matrix }}'
+        run: |
+          echo "matrix: >${{ steps.load-matrix.outputs.matrix }}<"
+          echo "json:"
+          jq '.' <<<'${{ steps.load-matrix.outputs.matrix }}'
 
-  print:
+  process-matrix-job:
     runs-on: ubuntu-latest
-    needs: get-matrix
+    needs: load-matrix
     strategy:
       matrix:
-        library: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+        library: ${{ fromJson(needs.load-matrix.outputs.matrix) }}
         python-version: [ "3.10" ]
     env:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
       TOK: ${{ secrets.OAREPO_BOT }}
+      BOT: oarepo-bot
     steps:
-      - name: Print output
+      - name: Print matrix
         run: |
-          echo "Output: ${{ matrix.library }}"
-          echo ">${{ toJson(matrix) }}<"
+          echo "matrix.library: ${{ matrix.library }}"
+          echo "matrix: >${{ matrix }}<"
+          echo "json: >${{ toJson(matrix) }}<"
+      - name: get default branch for ${{ matrix.library }}
+        run: |
+          REPO="${{ matrix.library }}"
+          BASE_URL="https://api.github.com/repos/$REPO"
+          . ./scripts/functions.sh
+          BASE_URL2="https://github.com/$REPO"
+          echo -e "\n$REPO\n($BASE_URL2)\nget default branch:"
+          BR=$(curl -s -XGET -H "Accept: application/json" "$BASE_URL2" | jq -r '.payload.repo.defaultBranch')
+          echo " ... branch $BR"
+          echo "BR=$BR" >> $GITHUB_ENV
+      - name: get trigrun for ${{ matrix.library }}
+        run: |
+          REPO="${{ matrix.library }}"
+          BASE_URL="https://api.github.com/repos/$REPO"
+          . ./scripts/functions.sh
+          echo "api_get_trigrun (for $REPO):"
+          api_get_trigrun "$BASE_URL"
