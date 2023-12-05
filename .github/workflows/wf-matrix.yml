@@ -44,6 +44,8 @@ jobs:
       TOK: ${{ secrets.OAREPO_BOT }}
       BOT: oarepo-bot
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: Print matrix
         run: |
           echo "matrix.library: ${{ matrix.library }}"
