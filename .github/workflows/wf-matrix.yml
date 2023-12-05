@@ -34,10 +34,10 @@ jobs:
 
   process-matrix-job:
     runs-on: ubuntu-latest
-    needs: load-matrix
+    needs: load-matrix-job
     strategy:
       matrix:
-        library: ${{ fromJson(needs.load-matrix.outputs.matrix) }}
+        library: ${{ fromJson(needs.load-matrix-job.outputs.matrix) }}
         python-version: [ "3.10" ]
     env:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
