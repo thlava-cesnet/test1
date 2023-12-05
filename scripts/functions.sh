@@ -9,9 +9,8 @@ function api_call(){
 
 function api_get_trigrun(){
   local url=${1:?"api_call: url undefined"} ; shift
-#  local event=${1:-workflow_dispatch} ; shift
-#  echo "api_get_trigrun($url, $event, BR=$BR, BOT=$BOT)"
-  echo "api_get_trigrun($url, BR=$BR, BOT=$BOT)"
+  local event=${1:-workflow_dispatch} ; shift
+  echo "api_get_trigrun($url, $event, BR=$BR, BOT=$BOT)"
 #  api_call "$url/actions/runs" "GET" | jq -r '
 #    [
 #      .workflow_runs[]
