@@ -9,17 +9,18 @@ function api_call(){
 
 function api_get_trigrun(){
   local url=${1:?"api_call: url undefined"} ; shift
-  local event=${1:-workflow_dispatch}
-  echo "api_get_trigrun($url, $event, BR=$BR, BOT=$BOT)"
-  api_call "$url/actions/runs" "GET" | jq -r '
+  local event="${1:-workflow_dispatch}" ; shift
+  local concl=${1:+' and .conclusion=="'$1'"'}
+  local cond='.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'"'$concl
+  api_call "$url/actions/runs" "GET" | jq -r "
     [
       .workflow_runs[]
-      | select(.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'")
+      | select($cond)
     ]
     | sort_by(.run_started_at) | reverse [0]
     | [.run_started_at,.conclusion]
     |@tsv
-  '
+  "
 }
 
 function mm_msg(){

@@ -43,6 +43,8 @@ jobs:
       OAREPO_VERSION: ${{ github.event.inputs.oarepo }}
       TOK: ${{ secrets.OAREPO_BOT }}
       BOT: oarepo-bot
+      TMP_DIR: /tmp/digests
+      REPO2: ${{ matrix.library }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -65,7 +67,25 @@ jobs:
           REPO="${{ matrix.library }}"
           BASE_URL="https://api.github.com/repos/$REPO"
           . ./scripts/functions.sh
-          type api_get_trigrun
-          echo "BR=$BR, BOT=$BOT"
           echo "api_get_trigrun (for $REPO):"
-          api_get_trigrun "$BASE_URL"
+          read RUNDATE RUNCONCLUSION <<<$(api_get_trigrun "$BASE_URL")
+          sleep 1
+          read SUCCDATE SUCCCONCLUSION <<<$(api_get_trigrun "$BASE_URL" workflow_dispatch success)
+          if [[ "$RUNCONCLUSION" != "success" && -n "$SUCCDATE" ]]; then
+            # last run failed and there is at least one succ.run
+            S_AGE=$(( $(date '+%s') - $(date '+%s' -d "$(echo $SUCCDATE)") ))
+            if [[ $S_AGE -lt 86400 ]]; then
+              # succ.run less then 1 day old
+              # prepare notification trigger
+              sleep 1
+            fi
+          fi
+          mkdir -p ${{ env.TMP_DIR }}
+          FILE="${{ env.TMP_DIR }}/${REPO//\//_}.txt"
+          echo -e "$REPO\t$RUNCONCLUSION\t$RUNDATE\t$SUCCDATE" > "$FILE"
+          echo "FILE=$FILE" >> $GITHUB_ENV
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.REPO2 }}
+          path: ${{ env.FILE }}
