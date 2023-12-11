@@ -97,6 +97,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: debug
         run: |
           OAR_LIBS=$(jq -r '.[]' < ./libraries.json)
@@ -111,8 +113,37 @@ jobs:
         run: |
           pwd
           ls -l
-          for OLIB in $(echo $OAR_LIBS); do echo ">$OLIB<"; done
-          OLIB=$(echo "$OAR_LIBS" | head -n 1)
-          echo "${OLIB//\//_}"
-          ls -l "${OLIB//\//_}"
-          cat "${OLIB//\//_}/${OLIB//\//_}.txt"
+          #OLIB=$(echo "$OAR_LIBS" | head -n 1)
+          #echo "${OLIB//\//_}"
+          #ls -l "${OLIB//\//_}"
+          #cat "${OLIB//\//_}/${OLIB//\//_}.txt"
+          for OLIB in $(echo $OAR_LIBS); do
+            echo ">$OLIB<"
+            cat "${OLIB//\//_}/${OLIB//\//_}.txt"
+            read REPO STATUS RUNDATE SUCCDATE < "${OLIB//\//_}/${OLIB//\//_}.txt"
+            REPO_URL="https://github.com/$OLIB"
+            BADGE_URL="$REPO_URL/actions/workflows/manual.yaml/badge.svg"
+            {
+              echo -n "[$REPO]($REPO_URL) $STATUS ($RUNDATE)"
+              [[ "$STATUS" != "success" ]] && echo -n " last success $SUCCDATE"
+              echo " ![$REPO - $STATUS]($BADGE_URL)"
+            } >> ./pages/index.md
+          done
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./pages
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+
+  deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: process-outputs
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
