@@ -111,6 +111,6 @@ jobs:
         run: |
           pwd
           ls -l
-          OLIB=$($OAR_LIBS | head -n 1)
+          OLIB=$(echo "$OAR_LIBS" | head -n 1)
           echo "${OLIB//\//_}"
           cat "${OLIB//\//_}"
