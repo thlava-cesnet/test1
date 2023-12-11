@@ -140,7 +140,7 @@ jobs:
               echo "* [![$REPO - $STATUS]($BADGE_URL) $REPO]($REPO_URL)\\"
               echo "$STATUS: $(date '+%Y-%m-%d %H:%M:%S' -d "$RUNDATE")\\"
               [[ "$STATUS" != "success" ]] && echo "last success: $(date '+%Y-%m-%d %H:%M:%S' -d "$SUCCDATE")"
-              #echo " ![$REPO - $STATUS]($BADGE_URL)"
+              echo ""
             } >> ./pages/index.md
           done
       - name: Build with Jekyll
