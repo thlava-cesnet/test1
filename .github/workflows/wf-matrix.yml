@@ -137,9 +137,9 @@ jobs:
             REPO_URL="https://github.com/$OLIB"
             BADGE_URL="$REPO_URL/actions/workflows/manual.yaml/badge.svg"
             {
-              echo "* [![$REPO - $STATUS]($BADGE_URL) $REPO]($REPO_URL)<br/>"
-              echo "$STATUS ($(date '+%Y-%m-%d %H:%M:%S' -d "$RUNDATE"))<br/>"
-              [[ "$STATUS" != "success" ]] && echo "last success $(date '+%Y-%m-%d %H:%M:%S' -d "$SUCCDATE")"
+              echo "* [![$REPO - $STATUS]($BADGE_URL) $REPO]($REPO_URL)\\"
+              echo "$STATUS: $(date '+%Y-%m-%d %H:%M:%S' -d "$RUNDATE")\\"
+              [[ "$STATUS" != "success" ]] && echo "last success: $(date '+%Y-%m-%d %H:%M:%S' -d "$SUCCDATE")"
               #echo " ![$REPO - $STATUS]($BADGE_URL)"
             } >> ./pages/index.md
           done
