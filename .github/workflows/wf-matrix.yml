@@ -137,9 +137,9 @@ jobs:
             REPO_URL="https://github.com/$OLIB"
             BADGE_URL="$REPO_URL/actions/workflows/manual.yaml/badge.svg"
             {
-              echo -n "* [$REPO]($REPO_URL) $STATUS ($RUNDATE)"
+              echo -n "* [$REPO ![$REPO - $STATUS]($BADGE_URL)]($REPO_URL) $STATUS ($RUNDATE)"
               [[ "$STATUS" != "success" ]] && echo -n " last success $SUCCDATE"
-              echo " ![$REPO - $STATUS]($BADGE_URL)"
+              #echo " ![$REPO - $STATUS]($BADGE_URL)"
             } >> ./pages/index.md
           done
       - name: Build with Jekyll
