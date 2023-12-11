@@ -111,6 +111,8 @@ jobs:
         run: |
           pwd
           ls -l
+          for OLIB in $(echo $OAR_LIBS); do echo ">$OLIB<"; done
           OLIB=$(echo "$OAR_LIBS" | head -n 1)
           echo "${OLIB//\//_}"
-          cat "${OLIB//\//_}"
+          ls -l "${OLIB//\//_}"
+          cat "${OLIB//\//_}/${OLIB//\//_}.txt"
