@@ -1,0 +1,3 @@
+oarepo/oarepo-vocabularies
+oarepo/oarepo-model-builder-files
+oarepo/oarepo-runtime
