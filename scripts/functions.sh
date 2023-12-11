@@ -10,17 +10,27 @@ function api_call(){
 function api_get_trigrun(){
   local url=${1:?"api_call: url undefined"} ; shift
   local event="${1:-workflow_dispatch}" ; shift
-  local concl=${1:+' and .conclusion=="'$1'"'}
-  local cond='.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'"'$concl
-  api_call "$url/actions/runs" "GET" | jq -r "
+  local concl="$1" ; shift
+  local idx="${1:-0}" ; shift
+  local page=${1:-1}
+  local concl_cond="${concl:+" and .conclusion==\"$concl\""}" ; shift
+  local cond='.head_branch=="'$BR'" and .path==".github/workflows/manual.yaml" and .actor.login=="'$BOT'" and .event=="'$event'"'$concl_cond
+  #echo ">$cond<"
+  local r=$(api_call "$url/actions/runs?page=$page" "GET" | jq -r "
     [
       .workflow_runs[]
       | select($cond)
     ]
-    | sort_by(.run_started_at) | reverse [0]
+    | sort_by(.run_started_at) | reverse [$idx]
     | [.run_started_at,.conclusion]
     |@tsv
-  "
+  ")
+  #echo "$page: >$r<"
+  if [[ "$r" == "\t" || $page -ne 1 ]]; then
+    echo $r
+  else
+    api_get_trigrun "$url" "$event" "$concl" "$idx" 2
+  fi
 }
 
 function mm_msg(){
