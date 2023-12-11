@@ -105,8 +105,12 @@ jobs:
       - name: debug2
         run: |
           echo ">$OAR_LIBS<"
-#      - name: Download artifact
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: ${{ env.ARTIF_NAME }}
-#          path: ${{ env.FILE }}
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+      - name: debug3
+        run: |
+          pwd
+          ls -l
+          OLIB=$($OAR_LIBS | head -n 1)
+          echo "${OLIB//\//_}"
+          cat "${OLIB//\//_}"
