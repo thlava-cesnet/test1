@@ -139,7 +139,10 @@ jobs:
             {
               echo "* [![$REPO - $STATUS]($BADGE_URL) $REPO]($REPO_URL)\\"
               echo "$STATUS: $(date '+%Y-%m-%d %H:%M:%S' -d "$RUNDATE")"
-              [[ "$STATUS" != "success" ]] && echo -e "\\\nlast success: $(date '+%Y-%m-%d %H:%M:%S' -d "$SUCCDATE")"
+              if [[ "$STATUS" != "success" ]]; then
+                echo "\\"
+                echo "last success: $(date '+%Y-%m-%d %H:%M:%S' -d "$SUCCDATE")"
+              fi
               echo ""
             } >> ./pages/index.md
           done
