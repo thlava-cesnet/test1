@@ -57,14 +57,12 @@ jobs:
       TOK: ${{ secrets.OAREPO_BOT }}
       BOT: oarepo-bot
       TMP_DIR: /tmp/data
-      REPO2: ${{ matrix.library }}
+      REPO: ${{ matrix.library }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get default branch for ${{ matrix.library }}
         run: |
-          REPO="${{ matrix.library }}"
-          echo "REPO2=$REPO2; REPO=$REPO"
           BASE_URL="https://api.github.com/repos/$REPO"
           . ./scripts/functions.sh
           echo -e "\n$REPO\n($BASE_URL)\nget default branch:"
@@ -73,7 +71,6 @@ jobs:
           echo "BR=$BR" >> $GITHUB_ENV
       - name: Get trigrun data for ${{ matrix.library }}
         run: |
-          REPO="${{ matrix.library }}"
           BASE_URL="https://api.github.com/repos/$REPO"
           . ./scripts/functions.sh
           echo "api_get_trigrun (for $REPO):"
