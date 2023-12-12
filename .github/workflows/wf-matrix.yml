@@ -114,7 +114,8 @@ jobs:
           echo -e "OAR_LIBS<<EOF\n$OAR_LIBS\nEOF" >> $GITHUB_ENV
       - name: Download artifact
         uses: actions/download-artifact@v3
-        with: ${{ env.TMP_DIR }}
+        with:
+          path: ${{ env.TMP_DIR }}
       - name: Generate index page
         run: |
           ls -l $TMP_DIR
