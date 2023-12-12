@@ -100,6 +100,8 @@ jobs:
   process-outputs:
     runs-on: ubuntu-latest
     needs: process-matrix-job
+    env:
+      TMP_DIR: /tmp/data
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -112,14 +114,14 @@ jobs:
           echo -e "OAR_LIBS<<EOF\n$OAR_LIBS\nEOF" >> $GITHUB_ENV
       - name: Download artifact
         uses: actions/download-artifact@v3
+        with: ${{ env.TMP_DIR }}
       - name: Generate index page
         run: |
-          pwd
-          ls -l
+          ls -l $TMP_DIR
           for OLIB in $(echo $OAR_LIBS); do
             echo ">$OLIB<"
-            cat "${OLIB//\//_}/${OLIB//\//_}.txt"
-            read REPO STATUS RUNDATE SUCCDATE < "${OLIB//\//_}/${OLIB//\//_}.txt"
+            cat "$TMP_DIR/${OLIB//\//_}/${OLIB//\//_}.txt"
+            read REPO STATUS RUNDATE SUCCDATE < "$TMP_DIR/${OLIB//\//_}/${OLIB//\//_}.txt"
             REPO_URL="https://github.com/$OLIB"
             BADGE_URL="$REPO_URL/actions/workflows/manual.yaml/badge.svg"
             {
@@ -132,6 +134,10 @@ jobs:
               echo ""
             } >> ./pages/index.md
           done
+          {
+            echo "---"
+            echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')"
+          } >> ./pages/index.md
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
