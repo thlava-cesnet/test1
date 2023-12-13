@@ -144,7 +144,8 @@ jobs:
             echo "---"
             echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')"
           } >> ./pages/index.md
-          NOTIF_MSG="Lorem\nipsum"
+          #NOTIF_MSG="Lorem\nipsum"
+          NOTIF_MSG=""
           echo -e "notif-msg<<EOF\n$NOTIF_MSG\nEOF" >> $GITHUB_OUTPUT
 
       - name: Build with Jekyll
