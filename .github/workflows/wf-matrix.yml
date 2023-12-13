@@ -135,6 +135,7 @@ jobs:
               echo ""
             } >> ./pages/index.md
           done
+          sed -i 's/---/<span style="color:red">test red<\/span>\n---/' ./pages/index.md
           {
             echo "---"
             echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')"
