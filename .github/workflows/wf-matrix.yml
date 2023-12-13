@@ -102,6 +102,8 @@ jobs:
     needs: process-matrix-job
     env:
       TMP_DIR: /tmp/data
+    outputs:
+      notif-msg: ${{ steps.generate-index.outputs.notif-msg }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -117,6 +119,7 @@ jobs:
         with:
           path: ${{ env.TMP_DIR }}
       - name: Generate index page
+        id: generate-index
         run: |
           ls -l $TMP_DIR
           for OLIB in $(echo $OAR_LIBS); do
@@ -141,6 +144,9 @@ jobs:
             echo "---"
             echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')"
           } >> ./pages/index.md
+          NOTIF_MSG="Lorem\nipsum"
+          echo -e "notif-msg<<EOF\n$NOTIF_MSG\nEOF" >> $GITHUB_OUTPUT
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
@@ -159,3 +165,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
+  send-notification:
+    runs-on: ubuntu-latest
+    needs: [ process-outputs, deploy-pages ]
+    if: needs.process-outputs.outputs.notif-msg != ''
+    env:
+      NOTIF_MSG: ${{ needs.process-outputs.outputs.notif-msg }}
+      MM_OAREPO_WH: ${{ secrets.MM_OAREPO_WH }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Send notification
+        run: |
+          . ./scripts/functions.sh
+          echo "NOTIF_MSG=$NOTIF_MSG"
+          mm_msg "$NOTIF_MSG" ${{ secrets.MM_CHANNEL }}
