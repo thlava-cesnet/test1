@@ -135,7 +135,8 @@ jobs:
               echo ""
             } >> ./pages/index.md
           done
-          sed -i 's/---/test: <span style="color:red">red<\/span>\/<span style="color:green">green<\/span>\n---/' ./pages/index.md
+          MSG='test: <span style="color:red">red</span>/<span style="color:green">green</span>'
+          sed -i "s/#MSG/${MSG//\//\\\/}/" ./pages/index.md
           {
             echo "---"
             echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')"
