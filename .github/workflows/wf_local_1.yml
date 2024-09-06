@@ -17,7 +17,7 @@ jobs:
   job-local:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run local GHa
         id: call_local_1
         uses: ./.github/actions/local_1
@@ -32,7 +32,7 @@ jobs:
   job-remote:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run remote composite GHa
         id: call_remote_1
         uses: thlava-cesnet/actions-test@v10

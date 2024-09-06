@@ -25,9 +25,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout test1
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Checkout test2 under ./test2
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: 'thlava-cesnet/test2'
         ref: 'master'

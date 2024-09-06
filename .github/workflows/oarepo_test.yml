@@ -50,7 +50,7 @@ jobs:
         run: |
           psql -d testdb -c 'SHOW server_version'
       - name: Checkout inveniosoftware/invenio-app-rdm under ./app-rdm
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'inveniosoftware/invenio-app-rdm'
           ref: 'maint-11.x'
@@ -71,7 +71,7 @@ jobs:
           /bin/echo -e "\nrequires:"
           grep -v invenio-rdm-records invenio_app_rdm.egg-info/requires.txt
       - name: Checkout oarepo/oarepo under ./oarepo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'oarepo/oarepo'
           ref: 'rdm-11'
