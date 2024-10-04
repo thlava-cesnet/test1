@@ -23,7 +23,7 @@ jobs:
       - name: Install packages
         if: runner.os == 'Linux'
         run: |
-          apt install --force-yes python3.10-wxgtk4.0
+          sudo apt-get install --no-install-recommends --no-install-suggests -y python3-wxgtk4.0
 
       - name: Install dependencies
         run: |
