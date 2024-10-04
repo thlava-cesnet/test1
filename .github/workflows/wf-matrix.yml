@@ -35,7 +35,7 @@ jobs:
       matrix: ${{ steps.load-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set matrix
         id: load-matrix
         run: echo "matrix=$(jq -c --raw-input --slurp 'split("\n")|map(select(.!=""))' < ./libraries.txt)" >> $GITHUB_OUTPUT
@@ -60,7 +60,7 @@ jobs:
       REPO: ${{ matrix.library }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Get default branch for ${{ matrix.library }}
         run: |
           BASE_URL="https://api.github.com/repos/$REPO"
@@ -91,7 +91,7 @@ jobs:
           echo -e "$REPO\t$RUNCONCLUSION\t$RUNDATE\t$SUCCDATE" > "$FILE"
           echo -e "FILE=$FILE\nARTIF_NAME=${REPO//\//_}" >> $GITHUB_ENV
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIF_NAME }}
           path: ${{ env.FILE }}
@@ -106,7 +106,7 @@ jobs:
       notif-msg: ${{ steps.generate-index.outputs.notif-msg }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Debug
@@ -115,7 +115,7 @@ jobs:
           echo ">$OAR_LIBS<"
           echo -e "OAR_LIBS<<EOF\n$OAR_LIBS\nEOF" >> $GITHUB_ENV
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ${{ env.TMP_DIR }}
       - name: Generate index page
@@ -176,7 +176,7 @@ jobs:
       MM_OAREPO_WH: ${{ secrets.MM_OAREPO_WH }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Send notification
         run: |
           . ./scripts/functions.sh

@@ -25,7 +25,7 @@ jobs:
       PLATFORM: ${{ matrix.platform }}
       BASE_IMAGE: ${{ matrix.base_image }}
     steps:
-#      - uses: actions/checkout@v2
+#      - uses: actions/checkout@v4
       - name: test
         run: |
           echo "$PLATFORM .. $REGISTRY_IMAGE .. $BASE_IMAGE"
