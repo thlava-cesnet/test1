@@ -28,11 +28,13 @@ jobs:
 
       - name: Build executable with PyInstaller
         run: |
+          PYLIBS=$(python -c 'import site; print(site.getsitepackages()[0])')
+          echo "PYLIBS: ${PYLIBS}"
           #pyinstaller --onefile --windowed your_script.py
-          pyinstaller -F --paths=/usr/local/lib/python3.10/site-packages python/PySimpleGUI_1.py
-          pyinstaller -F --paths=/usr/local/lib/python3.10/site-packages python/PySide_1.py
-          #pyinstaller -F --paths=/usr/local/lib/python3.10/site-packages python/wxPython_1.py
-          #pyinstaller -F --paths=/usr/local/lib/python3.10/site-packages python/wxPython_2.py
+          pyinstaller -F --paths=${PYLIBS} ./python/PySimpleGUI_1.py
+          pyinstaller -F --paths=${PYLIBS} ./python/PySide_1.py
+          #pyinstaller -F --paths=${PYLIBS} ./python/wxPython_1.py
+          #pyinstaller -F --paths=${PYLIBS} ./python/wxPython_2.py
         shell: bash  # Na macOS použijeme bash
 
       - name: Archive build output (Linux)
