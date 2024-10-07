@@ -33,15 +33,26 @@ jobs:
           pip install pyinstaller wxPython
           #pip install -r requirements.txt
 
-      - name: Build executable with PyInstaller
+      - name: Build executable for Windows
+        if: runner.os == 'Windows'
+        run: |
+          PYLIBS=$(python -c 'import site; print(site.getsitepackages()[0])')
+          echo "PYLIBS: ${PYLIBS}"
+          #mv ./python/wxPython_2.py ./python/wxPython_2.pyw
+          #pyinstaller --noconsole  --onefile --paths=${PYLIBS} ./python/wxPython_2.pyw
+          mv ./python/wxPython_2.py ./python/wxPython_2.pyw
+          pyinstaller --noconsole  --onefile --paths=${PYLIBS} ./python/wxPython_2.pyw
+
+      - name: Build executable for Linux and MacOS
+        if: runner.os != 'Windows'
         run: |
           PYLIBS=$(python -c 'import site; print(site.getsitepackages()[0])')
           echo "PYLIBS: ${PYLIBS}"
           #pyinstaller --onefile --windowed your_script.py
           #pyinstaller --onefile --paths=${PYLIBS} ./python/PySimpleGUI_1.py
           #pyinstaller --onefile --paths=${PYLIBS} ./python/PySide_1.py
-          pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_1.py
-          #pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_2.py
+          #pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_1.py
+          pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_2.py
         shell: bash  # Na macOS použijeme bash
 
       - name: Archive build output (Linux)
