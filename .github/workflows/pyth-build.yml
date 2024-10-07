@@ -42,6 +42,7 @@ jobs:
           #pyinstaller --noconsole  --onefile --paths=${PYLIBS} ./python/wxPython_2.pyw
           mv ./python/wxPython_2.py ./python/wxPython_2.pyw
           pyinstaller --noconsole  --onefile --paths=${PYLIBS} ./python/wxPython_2.pyw
+        shell: bash
 
       - name: Build executable for Linux and MacOS
         if: runner.os != 'Windows'
@@ -53,7 +54,7 @@ jobs:
           #pyinstaller --onefile --paths=${PYLIBS} ./python/PySide_1.py
           #pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_1.py
           pyinstaller --onefile --paths=${PYLIBS} ./python/wxPython_2.py
-        shell: bash  # Na macOS použijeme bash
+        shell: bash
 
       - name: Archive build output (Linux)
         if: runner.os == 'Linux'
